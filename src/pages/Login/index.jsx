@@ -1,8 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input, message } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { reqLogin } from '../../api';
 import storageUtils from '../../utils/storageUtils';
 import memoryUtils from '../../utils/memoryUtils';
 import logo from '../../assets/gengerMan.png'
@@ -15,12 +15,43 @@ export default function Login() {
   const formRef = useRef()
   const navigate = useNavigate()
 
-  const onFinish = (values) => {
+  useEffect(() => {
+    if (memoryUtils.user) {
+      navigate('/')
+    }
+  }, []);// eslint-disable-line
+
+  const onFinish = async (values) => {
     message.loading({
       content: 'Loading...',
       key,
     });
-    // console.log('Received values of form: ', values);
+    console.log('Received values of form: ', values);
+    // 发起ajax请求：模块化 【借助 promise 和 async await】
+    const result = await reqLogin(values)
+    console.log('返回的是啥：（应该是个【resolve(response.data)】这个response.data）', result)
+
+    const { status, msg, data } = result
+    if (status === 200) {
+      message.success({
+        content: 'Loaded!',
+        key,
+        duration: 2,
+      });
+      // 向web存储存放登录信息user
+      const loginUser = data
+      memoryUtils.user = loginUser
+      storageUtils.saveUser(data)
+      console.log('登录信息已存储，跳转至后台页面')
+      navigate('/')
+    } else if (status === 400 || status === 401) {
+      message.error({
+        content: msg,
+        key,
+        duration: 2,
+      });
+    }
+    /* 
     // 发起 ajax 请求
     axios({
       method: 'POST',
@@ -55,7 +86,8 @@ export default function Login() {
         key,
         duration: 2,
       });
-    })
+    }) 
+    */
 
   };
   const onReset = () => {
