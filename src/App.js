@@ -2,19 +2,25 @@
 // import 'antd/dist/antd.min.css'
 import './App.less';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
+import router from './routers';
 
-import Login from './pages/Login';
-import Admin from './pages/Admin';
+// import Login from './pages/Login';
+// import Admin from './pages/Admin';
 
 function App() {
+
+  const element = useRoutes(router)
+  
   return (
-    <BrowserRouter>
-      <Routes>
+    <>
+      {/* <Routes>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/' element={<Admin />}></Route>
-      </Routes>
-    </BrowserRouter>
+      </Routes> */}
+
+      {element}
+    </>
   );
 }
 
