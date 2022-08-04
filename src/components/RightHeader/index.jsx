@@ -15,7 +15,7 @@ export default function RightHeader() {
         // 1.清除本地web存储和内存
         memoryUtils.user = null
         storageUtils.removeUser()
-        console.log(Boolean(memoryUtils.user))
+        // console.log(Boolean(memoryUtils.user))
 
         // 2，返回/login页面(好像在Admin有判定 内存没有user自动跳login【x】没有刷新页面不会自动重新判定)
         navigate('/login')

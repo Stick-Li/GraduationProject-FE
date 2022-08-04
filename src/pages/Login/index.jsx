@@ -26,10 +26,10 @@ export default function Login() {
       content: 'Loading...',
       key,
     });
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
     // 发起ajax请求：模块化 【借助 promise 和 async await】
     const result = await reqLogin(values)
-    console.log('返回的是【resolve(response.data)】这个response.data）', result)
+    // console.log('返回的是【resolve(response.data)】这个response.data）', result)
 
     const { status, msg, data } = result
     if (status === 200) {

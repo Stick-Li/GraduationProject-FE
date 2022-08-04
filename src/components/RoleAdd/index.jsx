@@ -7,7 +7,6 @@ export default function RoleAdd(props) {
     const [form] = useForm()
 
     useEffect(() => {
-        console.log('=-1=2-4=12-1=',)
         props.getForm(form)
     });
 

@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from 'react';
 import { Tree } from 'antd';
-import React, { useState } from 'react';
 const treeData = [
     {
         // title: '0-0',
@@ -8,7 +8,8 @@ const treeData = [
         children: [
             {
                 title: '首页',
-                key: '0-0-0',
+                // key: '0-0-0',
+                key: 'home',
                 // #region
                 // children: [
                 //   {
@@ -28,16 +29,18 @@ const treeData = [
             },
             {
                 title: '管理',
-                key: '0-0-1',
+                // key:'0-0-1',
+                key: 'manage',
                 children: [
                     {
                         title: '角色管理',
-                        key: '0-0-1-0',
+                        // key: '0-0-1-0',
+                        key: 'role',
                     },
-                    {
-                        title: '用户管理',
-                        key: '0-0-1-1',
-                    },
+                    // {
+                    //     title: '用户管理',
+                    //     key: '0-0-1-1',
+                    // },
                 ],
             },
             // {
@@ -72,10 +75,15 @@ const treeData = [
     // #endregion
 ];
 
-const RolePower = () => {
-    const [expandedKeys, setExpandedKeys] = useState(['0-0-0', '0-0-1']);
-    const [checkedKeys, setCheckedKeys] = useState(['0-0-0']);
-    const [selectedKeys, setSelectedKeys] = useState([]);
+const RolePower = (props) => {
+
+    const { getMenuPath } = props
+
+    // const [expandedKeys, setExpandedKeys] = useState(['0-0-0', '0-0-1']);
+    const [expandedKeys, setExpandedKeys] = useState(['manage']);
+    // const [checkedKeys, setCheckedKeys] = useState(['0-0-0']);
+    const [checkedKeys, setCheckedKeys] = useState([]);     // 选中的复选框
+    const [selectedKeys, setSelectedKeys] = useState([]);   // 选中的文字
     const [autoExpandParent, setAutoExpandParent] = useState(true);
 
     const onExpand = (expandedKeysValue) => {
@@ -95,6 +103,13 @@ const RolePower = () => {
         console.log('onSelect：点击某节点', info);
         setSelectedKeys(selectedKeysValue);
     };
+
+    useEffect(() => {
+        // 把选中的菜单path传到父组件
+        getMenuPath(checkedKeys)
+        console.log('22222')
+    });
+
 
     return (
         <Tree

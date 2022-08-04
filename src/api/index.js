@@ -7,3 +7,5 @@ export const reqLogin = (values) => ajax('POST', BASIC_URL + '/login', values)
 export const reqAddRole = (values) => ajax('POST', BASIC_URL + '/addrole', values)
 
 export const reqGetRoles = () => ajax('GET', BASIC_URL + '/getroles')
+
+export const reqGetPower = (values) => ajax('POST', BASIC_URL + '/getpower', values)

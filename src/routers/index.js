@@ -3,6 +3,7 @@ import Admin from "../pages/Admin";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import Role from "../pages/Role";
+import User from '../pages/User';
 import TextRoute from "../pages/TestRoute"
 
 const router = [
@@ -19,7 +20,11 @@ const router = [
                 element: <Role />
             },
             {
-                path: 'test2',
+                path: 'user',
+                element: <User />
+            },
+            {
+                path: 'test',
                 element: <TextRoute />
             },
             {

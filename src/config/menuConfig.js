@@ -10,17 +10,27 @@ function getItem(label, key, icon, children) {
 }
 const items = [
     getItem('首页', 'home', <PieChartOutlined />),
-    getItem('角色管理', 'role', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-        getItem('Tom', 'test2'),
+    getItem('管理', 'manage', <DesktopOutlined />, [
+        getItem('角色管理', 'role'),
+        getItem('用户管理', 'user'),
+        // getItem('Alex', '5'),
+    ]),
+    getItem('User', 'sub2', <UserOutlined />, [
+        getItem('Tom', '3'),
         getItem('Bill', '4'),
         getItem('Alex', '5'),
     ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [
+    getItem('Team', 'sub3', <TeamOutlined />, [
         getItem('Team 1', '6'),
         getItem('Team 2', '8')
     ]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem('Files', 'test', <FileOutlined />),
 ];
+
+// if()
+// 对这里作判定，根据数据库用户的菜单path作判定，删选出合格的导出去
+// console.log('-----固定的每项菜单：', items)
+// console.log('-----当前登录的用户信息', user)
+
 
 export default items;

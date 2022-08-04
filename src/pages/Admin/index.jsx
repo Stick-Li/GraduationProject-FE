@@ -18,7 +18,7 @@ export default function Admin() {
   const user = memoryUtils.user
   useEffect(() => {
     if (!user) {
-      console.log('内存中没有user，跳转至登录')
+      // console.log('内存中没有user，跳转至登录')
       navigate('/login')
     }
   }, []);// eslint-disable-line
@@ -51,7 +51,8 @@ export default function Admin() {
         minHeight: '100vh',
       }}
     >
-      <LeftNav />
+    {/* 根据user的menu【数组】中的值渲染菜单 */}
+      <LeftNav />   
       {/* <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
