@@ -9,3 +9,9 @@ export const reqAddRole = (values) => ajax('POST', BASIC_URL + '/addrole', value
 export const reqGetRoles = () => ajax('GET', BASIC_URL + '/getroles')
 
 export const reqGetPower = (values) => ajax('POST', BASIC_URL + '/getpower', values)
+
+export const reqAddOneUser = (values) => ajax('POST', BASIC_URL + '/addoneuser', values)
+
+export const reqGetAllUsers = () => ajax('GET', BASIC_URL + '/getallusers')
+
+export const reqGetMenuPath = (value) => ajax('GET', BASIC_URL + '/getmemu', value)

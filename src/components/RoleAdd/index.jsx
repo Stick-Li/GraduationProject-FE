@@ -8,6 +8,7 @@ export default function RoleAdd(props) {
 
     useEffect(() => {
         props.getForm(form)
+        console.log('role什么时候子传父')
     });
 
     return (

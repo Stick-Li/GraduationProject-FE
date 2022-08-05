@@ -29,7 +29,7 @@ const items = [
 
 // if()
 // 对这里作判定，根据数据库用户的菜单path作判定，删选出合格的导出去
-// console.log('-----固定的每项菜单：', items)
+console.log('-----0.固定的每项菜单：', items)
 // console.log('-----当前登录的用户信息', user)
 
 

@@ -10,7 +10,6 @@ import memoryUtils from '../../utils/memoryUtils';
 export default function Role() {
 
     const user = memoryUtils.user
-    // const [form] = useForm()
     const [powerBtn, setPowerBtn] = useState(true);
     const [form, setForm] = useState({});
     const [role, setRole] = useState({});
@@ -78,6 +77,7 @@ export default function Role() {
     const getRoles = async () => {
         const { status, msg, data } = await reqGetRoles()
         if (status === 200) {
+            console.log('+', data)
             setRolesData(changeDataTime(data))
         } else {
             message.error({
@@ -98,7 +98,6 @@ export default function Role() {
         setVisible(true);
     };
     const submitAddShow = async () => {
-        // console.log('-------', form)
         setConfirmLoading(true);
         // const role = formRef.current.getFieldValue('newRole')
         const role = form.getFieldValue('newRole')
@@ -171,57 +170,55 @@ export default function Role() {
     )
 
     return (
-        <>
-            <Card
-                // title="Default size card"
-                extra={card_header}
-                className='right-content-card'
+        <Card
+            // title="Default size card"
+            extra={card_header}
+            className='right-content-card'
+        >
+            <Table
+                bordered
+                // rowKey={user => user.key}
+                rowKey={user => user._id}
+                columns={columns}
+                dataSource={rolesData}
+                // dataSource={rolesData}   // 列表值 行
+                rowSelection={{
+                    type: 'radio',
+                    selectedRowKeys: [role._id],
+                    // selectedRowKeys: [role.key],
+                    onSelect: (role) => { // 选择某个radio时回调
+                        // console.log(1)
+                        console.log(role)
+                        setPowerBtn(false)
+                        // setChooseRoleId(role._id)
+                        setRole(role)
+                    }
+                }}
+                onRow={onRow}
+            // pagination={{ defaultPageSize: PAGE_SIZE }}
             >
-                <Table
-                    bordered
-                    // rowKey={user => user.key}
-                    rowKey={user => user._id}
-                    columns={columns}
-                    dataSource={rolesData}
-                    // dataSource={rolesData}   // 列表值 行
-                    rowSelection={{
-                        type: 'radio',
-                        selectedRowKeys: [role._id],
-                        // selectedRowKeys: [role.key],
-                        onSelect: (role) => { // 选择某个radio时回调
-                            // console.log(1)
-                            console.log(role)
-                            setPowerBtn(false)
-                            // setChooseRoleId(role._id)
-                            setRole(role)
-                        }
-                    }}
-                    onRow={onRow}
-                // pagination={{ defaultPageSize: PAGE_SIZE }}
-                >
-                </Table>
-                <Modal
-                    title="新增身份"
-                    visible={visible}   // 是否弹出对话框
-                    onOk={submitAddShow}
-                    confirmLoading={confirmLoading} // 确定按钮 isloading
-                    onCancel={cancelAddShow}
-                    getContainer={false}    // form清空
-                >
-                    {/* <p>{modalText}</p> */}
-                    <RoleAdd getForm={getForm} />
-                </Modal>
-                <Modal
-                    title={`设置${role.roleName}的权限`}
-                    visible={visiblePower}   // 是否弹出对话框
-                    onOk={submitPowerShow}
-                    confirmLoading={confirmLoadingPower} // 确定按钮 isloading
-                    onCancel={cancelPowerShow}
-                // getContainer={false}    // form清空
-                >
-                    <RolePower getMenuPath={getMenuPath} />
-                </Modal>
-            </Card>
-        </>
+            </Table>
+            <Modal
+                title="新增身份"
+                visible={visible}   // 是否弹出对话框
+                onOk={submitAddShow}
+                confirmLoading={confirmLoading} // 确定按钮 isloading
+                onCancel={cancelAddShow}
+                getContainer={false}    // form清空
+            >
+                {/* <p>{modalText}</p> */}
+                <RoleAdd getForm={getForm} />
+            </Modal>
+            <Modal
+                title={`设置${role.roleName}的权限`}
+                visible={visiblePower}   // 是否弹出对话框
+                onOk={submitPowerShow}
+                confirmLoading={confirmLoadingPower} // 确定按钮 isloading
+                onCancel={cancelPowerShow}
+            // getContainer={false}    // form清空
+            >
+                <RolePower getMenuPath={getMenuPath} />
+            </Modal>
+        </Card>
     )
 }

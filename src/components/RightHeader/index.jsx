@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Layout, Dropdown, Avatar, Menu, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
@@ -57,6 +57,7 @@ export default function RightHeader() {
             <Dropdown overlay={menu} placement="bottomRight">
                 <Avatar icon={<UserOutlined />} className='userImg' />
             </Dropdown>
+            <span className='sayHello'>早上好，<b>{memoryUtils.user.username}</b></span>
         </Header>
     )
 }

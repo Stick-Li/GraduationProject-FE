@@ -112,7 +112,7 @@ export default function Login() {
           ref={formRef}
         >
           <Form.Item
-            name="username"
+            name="userId"
             // 声明式验证：直接使用别人定义好的验证规则进行验证
             rules={[
               {
