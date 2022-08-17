@@ -5,7 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import memoryUtils from '../../utils/memoryUtils';
 import storageUtils from '../../utils/storageUtils';
 
-import './index.less'
+import './Header.less'
 
 export default function RightHeader() {
     const { Header } = Layout;

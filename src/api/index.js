@@ -15,3 +15,5 @@ export const reqAddOneUser = (values) => ajax('POST', BASIC_URL + '/addoneuser',
 export const reqGetAllUsers = () => ajax('GET', BASIC_URL + '/getallusers')
 
 export const reqGetMenuPath = (value) => ajax('GET', BASIC_URL + '/getmemu', value)
+
+export const reqAddUsers = (value) => ajax('POST', BASIC_URL + '/addusers', value)

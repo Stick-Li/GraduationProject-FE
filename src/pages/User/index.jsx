@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Table, Modal, message } from 'antd';
-import UserAdd from '../../components/UserAdd';
-import { reqAddOneUser, reqGetAllUsers } from '../../api';
+import { Card, Button, Table, Modal, message, Space } from 'antd';
+import { FileExcelOutlined } from '@ant-design/icons';
+import UserAdd from '../../components/User/Add';
+import UsersImport from '../../components/User/Import';
+import { reqAddOneUser, reqAddUsers, reqGetAllUsers } from '../../api';
 
 export default function User() {
 
   const [visibleAddOneUser, setVisibleAddOneUser] = useState(false);
   const [addOneForm, setAddOneForm] = useState({});
   const [userData, setUserData] = useState([]);
+
+  const [visibleImportUsers, setVisibleImportUsers] = useState(false);
+  const [excelDataText, setExcelDataText] = useState({ status: 0 });
+
+  const [visibleUpdateUser, setVisibleUpdateUser] = useState(false);
 
   const userColumns = [
     {
@@ -33,7 +40,18 @@ export default function User() {
     {
       title: '所属角色',
       dataIndex: 'userRole'
-    }
+    },
+    {
+      title: 'Action',
+      // key: 'action',
+      render: (_, record) => (
+        <Space size="middle">
+          {/* <a>Invite {record.name}</a> */}
+          <a onClick={showUpdateUser}>Update</a>
+          <a>Delete</a>
+        </Space>
+      ),
+    },
   ]
   // const userData = [
   //   {
@@ -73,20 +91,20 @@ export default function User() {
         })
         // 再次调用初始化方法渲染users--------------------------------------------------
         getUsers()
+        setVisibleAddOneUser(false)
+        addOneForm.resetFields()
       } else {
         message.error({
           content: `${status}：${msg}`,
           duration: 2
         })
       }
-      setVisibleAddOneUser(false)
     } else {
       message.error({
         content: '请将必填项完整',
         duration: 2,
       })
     }
-
   }
   const cancelAddOneUser = () => {
     setVisibleAddOneUser(false)
@@ -96,6 +114,57 @@ export default function User() {
   const getAddOneUserFrom = (e) => {
     console.log('父组件拿到子组件的Form值：', e)
     setAddOneForm(e)
+  }
+
+  // excel导入用户
+  const showImportUsers = () => {
+    setVisibleImportUsers(true)
+  }
+  const submitImportUsers = async (e) => {
+    // console.log('点击确定')
+    // console.log(e)
+    // console.log(errorText)
+    if (excelDataText.status === 2) {
+      // console.log('状态码是2')
+      message.error({
+        content: excelDataText.message,
+        duration: 2
+      })
+    } else if (excelDataText.status === 1) {
+      // 发接口
+      const { status, msg } = await reqAddUsers(excelDataText.data)
+      if (status === 200) {
+        message.success({
+          content: '表格数据导入数据库成功！',
+          duration: 2
+        })
+        getUsers()
+        setVisibleImportUsers(false)
+      } else {
+        message.error({
+          content: `${status}:${msg}`,
+          duration: 2
+        })
+      }
+    } else {
+      // 不做任何请求
+    }
+  }
+  const cancelImportUsers = (e) => {
+    setVisibleImportUsers(false)
+  }
+  const getExcelDataText = (e) => {
+    setExcelDataText(e)
+  }
+
+  const showUpdateUser = () => {
+    setVisibleUpdateUser(true)
+  }
+  const submitUpdateUser = () => {
+
+  }
+  const cancelUpdateUser = () => {
+
   }
 
   const getUsers = async () => {
@@ -114,8 +183,9 @@ export default function User() {
     getUsers()
   }, []);
 
-  const card_header_left = <Button type="primary" className='cardBtn'>导入用户</Button>
+  const card_header_left = <Button type="primary" onClick={showImportUsers} className='cardBtn'>导入用户</Button>
   const card_header_right = <Button type="primary" onClick={showAddOneUser} className='cardBtn'>新建用户</Button>
+  // const card_header_right2 = <Button type="primary" onClick={showChangeUser} className='cardBtn'>修改用户</Button>
 
   return (
     // 导入用户信息的功能（excel），手动增删改查的功能
@@ -129,7 +199,7 @@ export default function User() {
         columns={userColumns}
         dataSource={userData}
         rowKey={user => user.userId}
-        // style={userData === [] ? { 'height': 581 } : ''}
+      // style={userData === [] ? { 'height': 581 } : ''}
       >
       </Table>
       <Modal
@@ -139,6 +209,28 @@ export default function User() {
         onCancel={cancelAddOneUser}
       >
         <UserAdd getAddOneUserFrom={getAddOneUserFrom} />
+      </Modal>
+      <Modal
+        title='excel导入用户'
+        visible={visibleImportUsers}
+        onOk={submitImportUsers}
+        okText='上传数据'
+        onCancel={cancelImportUsers}
+      >
+        {/* <FileExcelOutlined />
+        请按照此表格形式上传数据 */}
+        <UsersImport getExcelDataText={getExcelDataText} />
+      </Modal>
+      <Modal
+        title='更新用户信息'
+        visible={visibleUpdateUser}
+        onOk={submitUpdateUser}
+        // okText='上传数据'
+        onCancel={cancelUpdateUser}
+      >
+        {/* <FileExcelOutlined />
+        请按照此表格形式上传数据 */}
+        {/* <UsersImport getExcelDataText={getExcelDataText} /> */}
       </Modal>
     </Card>
   )

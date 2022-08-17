@@ -3,8 +3,8 @@ import { Button, Card, Table, Modal, message } from 'antd';
 import './index.less'
 import { reqAddRole, reqGetRoles, reqGetPower } from '../../api';
 
-import RoleAdd from '../../components/RoleAdd';
-import RolePower from '../../components/RolePower'
+import RoleAdd from '../../components/Role/Add';
+import RolePower from '../../components/Role/Power'
 import memoryUtils from '../../utils/memoryUtils';
 
 export default function Role() {
@@ -164,7 +164,7 @@ export default function Role() {
 
     const card_header = (
         <span>
-            <Button type="primary" onClick={showAddModal} className='cardBtn'>新建角色</Button>
+            <Button type="primary" onClick={showAddModal} className='cardBtn'>新建身份</Button>
             <Button type="primary" disabled={powerBtn} onClick={showPowerModal} className='cardBtn'>添加权限</Button>
         </span>
     )

@@ -55,68 +55,7 @@ export default function LeftNav() {
 
   const getMenuPath = async () => {
     const { status, msg, menuPath } = await reqGetMenuPath(user.userRole)
-    // console.log('*', menuPath, [...items])
-    // console.log('-', ['home', 'manage', 'role', 'manage1', 'user1']
-    //   , [
-    //     {
-    //       key: 'home',
-    //       children: undefined
-    //     },
-    //     {
-    //       key: 'manage',
-    //       children: [
-    //         { key: 'role', children: undefined },
-    //         { key: 'user', children: undefined },
-    //       ],
-    //     },
-    //     {
-    //       key: 'manage1',
-    //       children: [
-    //         { key: 'role1', children: undefined },
-    //         { key: 'user1', children: undefined },
-    //       ],
-    //     },
-    //     {
-    //       key: 'manage2',
-    //       children: [
-    //         { key: 'role1', children: undefined },
-    //         { key: 'user1', children: undefined },
-    //       ],
-    //     }
-    //   ])
     if (status === 200) {
-      // console.log('-----当前菜单path数组应该为-----：', menuPath)
-      // 现在有menuPath了，用当时写的方法过滤左侧导航栏(Admin不进行过滤)
-      // const a = await filterMenu(
-      //   ['home', 'manage', 'role', 'manage1', 'user1']
-      //   , [
-      //     {
-      //       key: 'home',
-      //       children: undefined
-      //     },
-      //     {
-      //       key: 'manage',
-      //       children: [
-      //         { key: 'role', children: undefined },
-      //         { key: 'user', children: undefined },
-      //       ],
-      //     },
-      //     {
-      //       key: 'manage1',
-      //       children: [
-      //         { key: 'role1', children: undefined },
-      //         { key: 'user1', children: undefined },
-      //       ],
-      //     },
-      //     {
-      //       key: 'manage2',
-      //       children: [
-      //         { key: 'role1', children: undefined },
-      //         { key: 'user1', children: undefined },
-      //       ],
-      //     }
-      //   ])
-      // console.log('+++++a.过滤后菜单（部分）+++++', a)
       console.log('menuPath', menuPath)
       console.log('+++++b.过滤前菜单（所有）+++++', [...items])
       const b = await filterMenu(menuPath, [...items])
@@ -128,7 +67,6 @@ export default function LeftNav() {
         duration: 2
       })
     }
-    // console.log('1.已获得新角色权限 2.意过滤完生成新导航栏')
   }
 
   useEffect(() => {

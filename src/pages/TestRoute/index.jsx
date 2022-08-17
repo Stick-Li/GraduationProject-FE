@@ -1,65 +1,49 @@
-// import React from 'react'
-
-// export default function TextRoute() {
-//   return (
-//     <div>
-//         暂时的路由组件，不知道具体放哪先放在最外层下
-//     </div>
-//   )
-// }
-
-import { Space, Table, Tag, Card, Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Upload } from 'antd';
 import React from 'react';
-const { Column, ColumnGroup } = Table;
-const userColumns = [
-  {
-    title: '学号/工号',
-    dataIndex: 'userId'
-  },
-  {
-    title: '姓名',
-    dataIndex: 'username'
-  },
-  {
-    title: '手机号',
-    dataIndex: 'userPhone'
-  },
-  {
-    title: '学院',
-    dataIndex: 'userInstitute'
-  },
-  {
-    title: '专业',
-    dataIndex: 'userSubject'
-  },
-  {
-    title: '所属角色',
-    dataIndex: 'userRole'
+const props = {
+  // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+
+  // onChange({ file, fileList }) {
+  //   if (file.status !== 'uploading') {
+  //     console.log(file, fileList);
+  //   }
+  // },
+
+  defaultFileList: [
+    {
+      uid: '1',
+      name: 'xxx.png',
+      status: 'done',
+      response: 'Server Error 500',
+      // custom error message to show
+      url: 'http://www.baidu.com/xxx.png',
+    },
+  //   {
+  //     uid: '2',
+  //     name: 'yyy.png',
+  //     status: 'done',
+  //     url: 'http://www.baidu.com/yyy.png',
+  //   },
+  //   {
+  //     uid: '3',
+  //     name: 'zzz.png',
+  //     status: 'error',
+  //     response: 'Server Error 500',
+  //     // custom error message to show
+  //     url: 'http://www.baidu.com/zzz.png',
+  //   },
+  ],
+
+  itemRender: (originNode, file, currentFileList) => {
+    return <div>{originNode}{file}{currentFileList}</div>
   }
-]
-const userData = [
-  // {
-  //   userId: '109019012',
-  //   username: 'ljx'
-  // }
-];
+};
 
 const App = () => (
-  <Card
-    title={<Button type="primary" className='cardBtn'>daoru</Button>}
-    extra={<Button></Button>}
-    className='right-content-card'
-  >
-    <Table
-      bordered
-      columns={userColumns}
-      dataSource={userData}
-      rowKey={user => user.userId}
-    // style={userData === [] ? { 'height': 581 } : ''}
-    >
-    </Table>
-
-  </Card>
+  <Upload {...props}>
+    <Button icon={<UploadOutlined />}>Upload</Button>
+  </Upload>
 );
 
 export default App;

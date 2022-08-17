@@ -79,7 +79,24 @@ const UserAdd = (props) => {
             >
                 <Input />
             </Form.Item>
-
+            <Form.Item
+                label="手机号"
+                name="userPhone"
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label="学院"
+                name="userInstitute"
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label="专业"
+                name="userSubject"
+            >
+                <Input />
+            </Form.Item>
             {/* <Form.Item
                 label="Password"
                 name="password"

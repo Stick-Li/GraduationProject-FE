@@ -4,9 +4,9 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 // import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import memoryUtils from '../../utils/memoryUtils'
 import LeftNav from '../../components/LeftNav';
-import RightHeader from '../../components/RightHeader';
-import RightContent from '../../components/RightContent';
-import RightFooter from '../../components/RightFooter';
+import RightHeader from '../../components/RightContent/Header';
+import RightMiddle from '../../components/RightContent/Middle';
+import RightFooter from '../../components/RightContent/Footer';
 import './index.less'
 
 // 后台管理的路由组件
@@ -60,7 +60,7 @@ export default function Admin() {
       */}
       <Layout className="site-layout">
         <RightHeader />
-        <RightContent />
+        <RightMiddle />
         <RightFooter />
         {/* <Header
           className="site-layout-background"
