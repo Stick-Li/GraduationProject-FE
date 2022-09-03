@@ -29,7 +29,9 @@ export default function LeftNav() {
   }
   const menuDefaultOpenKeys = () => {
     if (path === 'role' || path === 'user') {
-      return ['manage']
+      return ['manage', 'fun']
+    } else {
+      return ['fun']
     }
   }
 

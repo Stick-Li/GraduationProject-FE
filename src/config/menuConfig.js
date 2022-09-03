@@ -15,14 +15,18 @@ const items = [
         getItem('用户管理', 'user'),
         // getItem('Alex', '5'),
     ]),
-    getItem('User', 'sub2', <UserOutlined />, [
-        getItem('Tom', '3'),
-        getItem('Bill', '4'),
-        getItem('Alex', '5'),
+    getItem('功能', 'fun', <UserOutlined />, [
+        getItem('课题申报', 'declaration'),
+        getItem('选题', '4'),
+        getItem('开题', '5'),
+        getItem('中期答辩', '6'),
+        getItem('申请答辩', '7'),
+        getItem('评审', '8'),
+        getItem('答辩', '9'),
     ]),
-    getItem('Team', 'sub3', <TeamOutlined />, [
-        getItem('Team 1', '6'),
-        getItem('Team 2', '8')
+    getItem('进度图解', 'sub3', <TeamOutlined />, [
+        getItem('Team 1', '10'),
+        getItem('Team 2', '11')
     ]),
     getItem('Files', 'test', <FileOutlined />),
 ];

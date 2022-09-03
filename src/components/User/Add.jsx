@@ -12,6 +12,8 @@ const UserAdd = (props) => {
     const [form] = Form.useForm();
     const [roleTypes, setRoleTypes] = useState([]);
 
+    const [changeInfo, setChangeInfo] = useState();
+
     // const onGenderChange = (value) => {
     //     switch (value) {
     //         case 'male':
@@ -39,6 +41,15 @@ const UserAdd = (props) => {
     // };
 
     useEffect(() => {
+        if(props.changeUser){
+            console.log(1111111)
+            // setChangeInfo(props.changeUser)
+            form.setFieldsValue(props.changeUser)
+            // form.setFieldsValue(changeInfo)
+        }
+    }, );
+    
+    useEffect(() => {
         props.getAddOneUserFrom(form)
         console.log('user什么时候子传父')
         getRoleTypes()
@@ -60,6 +71,7 @@ const UserAdd = (props) => {
             form={form}
             layout="vertical"
             requiredMark={true}   // 必选样式，可以切换为必选或者可选展示样式。
+            // initialValues={changeInfo}
         >
             <Form.Item
                 label="学号/工号"

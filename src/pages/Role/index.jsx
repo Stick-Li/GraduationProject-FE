@@ -151,6 +151,7 @@ export default function Role() {
         // setTimeout(() => {
         setVisiblePower(false);
         setConfirmLoadingPower(false);
+        getRoles()
         // }, 2000);
 
     };

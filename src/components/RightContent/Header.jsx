@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { Layout, Dropdown, Avatar, Menu, message } from 'antd';
+import { Layout, Dropdown, Avatar, Menu, message, Badge } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import memoryUtils from '../../utils/memoryUtils';
 import storageUtils from '../../utils/storageUtils';
 
 import './Header.less'
+import { reqGetNoticeArr } from '../../api';
 
 export default function RightHeader() {
+
+    const [badgeCount, setBadgeCount] = useState(0);
+
     const { Header } = Layout;
     const navigate = useNavigate()
 
@@ -22,6 +26,22 @@ export default function RightHeader() {
         message.success('已退出', 1);
     }
 
+    // 获取到storage的userId，传递给后端，查询noticeModule的receiveId
+    const getNoticeArr = async () => {
+        const { data } = await reqGetNoticeArr({ receiverId: memoryUtils.user.userId })
+        console.log('****', data)
+        const notReadArr = data.filter((value, index, array) => {
+            return value.isReceiveRead === false
+        })
+        console.log('****', notReadArr)
+        setBadgeCount(notReadArr.length)      // 只有刷新app才会展示最新结果，如何实现实时？
+        // 点击信息去看信息
+    }
+
+    useEffect(() => {
+        getNoticeArr()
+    }, []);
+
     const menu = (
         <Menu
             items={[
@@ -29,18 +49,24 @@ export default function RightHeader() {
                     key: '1',
                     label: (
                         // <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                        <h1>登录信息</h1>
+                        <span onClick={() => navigate('/info')}>个人信息</span>
                         // </a>
                     ),
+                },
+                {
+                    key: '2',
+                    label: (
+                        <span onClick={() => navigate('/notice')}>消息</span>
+                    )
                 },
                 {
                     type: 'divider',
                 },
                 {
-                    key: '2',
+                    key: '3',
                     label: (
                         // <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                        <div onClick={logout}>退出</div>
+                        <span onClick={logout}>退出</span>
                         // </a>
                     ),
                 }
@@ -55,9 +81,12 @@ export default function RightHeader() {
             }}
         >
             <Dropdown overlay={menu} placement="bottomRight">
-                <Avatar icon={<UserOutlined />} className='userImg' />
+                <Badge count={badgeCount}>
+                    {/* 下一步就是 按照未读数生成数字 */}
+                    <Avatar icon={<UserOutlined />} className='userImg' />
+                </Badge>
             </Dropdown>
-            <span className='sayHello'>早上好，<b>{memoryUtils.user.username}</b></span>
+            <span className='sayHello'>早上好，<b>{memoryUtils.user ? memoryUtils.user.username : ''}</b></span>
         </Header>
     )
 }

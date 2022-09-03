@@ -5,6 +5,8 @@ import Home from "../pages/Home";
 import Role from "../pages/Role";
 import User from '../pages/User';
 import TextRoute from "../pages/TestRoute"
+import Declaration from "../pages/Info/declaration";
+import Notice from "../pages/Notice";
 
 const router = [
     {
@@ -23,6 +25,15 @@ const router = [
                 path: 'user',
                 element: <User />
             },
+            // {
+            //     path: 'one',
+            //     element: <User />
+            // },
+
+            {
+                path: '/declaration',
+                element: <Declaration />
+            },
             {
                 path: 'test',
                 element: <TextRoute />
@@ -36,6 +47,10 @@ const router = [
     {
         path: '/login',
         element: <Login />
+    },
+    {
+        path: '/notice',
+        element: <Notice />
     },
     {
         path: '*',

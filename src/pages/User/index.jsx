@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Table, Modal, message, Space } from 'antd';
+import { Card, Button, Table, Modal, message, Space, Popconfirm } from 'antd';
 import { FileExcelOutlined } from '@ant-design/icons';
 import UserAdd from '../../components/User/Add';
 import UsersImport from '../../components/User/Import';
-import { reqAddOneUser, reqAddUsers, reqGetAllUsers } from '../../api';
+import { reqAddOneUser, reqAddUsers, reqGetAllUsers, reqUpdateOneUser, reqDeleteOneUser } from '../../api';
 
 export default function User() {
 
@@ -15,6 +15,7 @@ export default function User() {
   const [excelDataText, setExcelDataText] = useState({ status: 0 });
 
   const [visibleUpdateUser, setVisibleUpdateUser] = useState(false);
+  const [nowUpdateUser, setNowUpdateUser] = useState();
 
   const userColumns = [
     {
@@ -46,9 +47,17 @@ export default function User() {
       // key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {/* <a>Invite {record.name}</a> */}
-          <a onClick={showUpdateUser}>Update</a>
-          <a>Delete</a>
+          {/* <a>Invite {record.username}</a> */}
+          <a onClick={() => { showUpdateUser(record) }}>Update</a>
+          <Popconfirm
+            title="确定删除该用户？"
+            onConfirm={() => { confirmDelete(record._id) }}
+            // onCancel={cancelDelete}
+            okText="是"
+            cancelText="否"
+          >
+            <a>Delete</a>
+          </Popconfirm>
         </Space>
       ),
     },
@@ -157,15 +166,65 @@ export default function User() {
     setExcelDataText(e)
   }
 
-  const showUpdateUser = () => {
+  // 修改
+  const showUpdateUser = (userDate) => {
     setVisibleUpdateUser(true)
+    console.log('点击更新', userDate)
+    setNowUpdateUser(userDate)
   }
-  const submitUpdateUser = () => {
+  const submitUpdateUser = async () => {
+    const getAddOneUser = addOneForm.getFieldValue()
+    console.log('确定按钮，拿到所有值', getAddOneUser)
+    // 访问接口，根据_id查找人，找到更新，userId的更新不能和数据库冲突
+    const { status, msg } = await reqUpdateOneUser(getAddOneUser)
+    if (status === 200) {
+      message.success({
+        content: '修改当前用户成功',
+        duration: 2
+      })
 
+      getUsers()
+      setVisibleUpdateUser(false)
+      addOneForm.resetFields()
+    } else {
+      message.error({
+        content: `${status}：${msg}`,
+        duration: 2
+      })
+    }
   }
   const cancelUpdateUser = () => {
-
+    setVisibleUpdateUser(false)
+    addOneForm.resetFields()
   }
+
+  // 确认删除
+  const confirmDelete = async (_id) => {
+    console.log(_id);
+    // 删除接口
+    const { status, msg } = await reqDeleteOneUser({ _id })
+    if (status === 200) {
+      message.success({
+        content: msg,
+        duration: 2
+      });
+      getUsers()
+    } else {
+      message.error({
+        content: `${status}：${msg}`,
+        duration: 2
+      })
+    }
+
+  };
+
+  // const cancelDelete = (e) => {
+  //   console.log(e);
+  //   message.error({
+  //     content: 'Click on No',
+  //     duration: 2
+  //   });
+  // };
 
   const getUsers = async () => {
     const { status, msg, data } = await reqGetAllUsers()
@@ -231,7 +290,15 @@ export default function User() {
         {/* <FileExcelOutlined />
         请按照此表格形式上传数据 */}
         {/* <UsersImport getExcelDataText={getExcelDataText} /> */}
+        <UserAdd getAddOneUserFrom={getAddOneUserFrom} changeUser={nowUpdateUser} />
       </Modal>
     </Card>
   )
 }
+
+// 下一步就是做功能！！！
+// 1.个人信息填写
+// 然后结合人家的视频去看和自己写的哪里不行
+// ts学习（）
+// 2.毕设功能
+// 教师提交

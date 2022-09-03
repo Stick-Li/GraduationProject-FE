@@ -44,6 +44,22 @@ const treeData = [
                     },
                 ],
             },
+            {
+                title: '功能',
+                // key:'0-0-1',
+                key: 'fun',
+                children: [
+                    {
+                        title: '课题申报',
+                        // key: '0-0-1-0',
+                        key: 'declaration',
+                    },
+                    // {
+                    //     title: '用户管理',
+                    //     key: 'user',
+                    // },
+                ],
+            },
             // {
             //   title: '0-0-2',
             //   key: '0-0-2',
@@ -81,7 +97,7 @@ const RolePower = (props) => {
     const { getMenuPath } = props
 
     // const [expandedKeys, setExpandedKeys] = useState(['0-0-0', '0-0-1']);
-    const [expandedKeys, setExpandedKeys] = useState(['manage']);
+    const [expandedKeys, setExpandedKeys] = useState(['manage', 'fun']);
     // const [checkedKeys, setCheckedKeys] = useState(['0-0-0']);
     const [checkedKeys, setCheckedKeys] = useState(['home']);     // 选中的复选框
     const [selectedKeys, setSelectedKeys] = useState([]);   // 选中的文字

@@ -17,3 +17,11 @@ export const reqGetAllUsers = () => ajax('GET', BASIC_URL + '/getallusers')
 export const reqGetMenuPath = (value) => ajax('GET', BASIC_URL + '/getmemu', value)
 
 export const reqAddUsers = (value) => ajax('POST', BASIC_URL + '/addusers', value)
+
+export const reqUpdateOneUser = (value) => ajax('POST', BASIC_URL + '/updateoneuser', value)
+
+export const reqDeleteOneUser = (value) => ajax('POST', BASIC_URL + '/deleteoneuser', value)
+
+export const reqSendMessage = (value) => ajax('POST', BASIC_URL + '/sendmessage', value)
+
+export const reqGetNoticeArr = (value) => ajax('GET', BASIC_URL + '/getnoticearr', value)
