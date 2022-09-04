@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Layout, Dropdown, Avatar, Menu, message, Badge } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import memoryUtils from '../../utils/memoryUtils';
@@ -11,6 +11,7 @@ import { reqGetNoticeArr } from '../../api';
 export default function RightHeader() {
 
     const [badgeCount, setBadgeCount] = useState(0);
+    const [noticeArr, setNoticeArr] = useState({});
 
     const { Header } = Layout;
     const navigate = useNavigate()
@@ -29,6 +30,7 @@ export default function RightHeader() {
     // 获取到storage的userId，传递给后端，查询noticeModule的receiveId
     const getNoticeArr = async () => {
         const { data } = await reqGetNoticeArr({ receiverId: memoryUtils.user.userId })
+        setNoticeArr(data)
         console.log('****', data)
         const notReadArr = data.filter((value, index, array) => {
             return value.isReceiveRead === false
@@ -36,11 +38,16 @@ export default function RightHeader() {
         console.log('****', notReadArr)
         setBadgeCount(notReadArr.length)      // 只有刷新app才会展示最新结果，如何实现实时？
         // 点击信息去看信息
+        console.log('------', noticeArr)
     }
+    // const getNoticeArr = () => {
+    //     setNoticeArr(noticeData)
+    //     setBadgeCount(notReadArr.length)
+    // }
 
     useEffect(() => {
         getNoticeArr()
-    }, []);
+    }, []);// eslint-disable-line
 
     const menu = (
         <Menu
@@ -56,7 +63,9 @@ export default function RightHeader() {
                 {
                     key: '2',
                     label: (
-                        <span onClick={() => navigate('/notice')}>消息</span>
+                        <Badge dot={badgeCount !== 0}>
+                            <Link to='/notice' state={noticeArr} style={{ color: 'black' }}>消息</Link>
+                        </Badge>
                     )
                 },
                 {

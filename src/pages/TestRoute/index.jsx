@@ -1,20 +1,19 @@
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Badge } from 'antd';
+import { NotificationOutlined } from '@ant-design/icons';
+import { Badge } from 'antd';
 import React from 'react';
-import './index.less'
 
 const App = () => (
   <>
-    {/* <span> */}
-      <Badge count={5}>
-        <Avatar shape="square" icon={<UserOutlined />} />
-      </Badge>
-    {/* </span> */}
-    {/* <span>
-      <Badge dot>
-        <Avatar shape="square" icon={<UserOutlined />} />
-      </Badge>
-    </span> */}
+    <Badge dot>
+      <NotificationOutlined
+        style={{
+          fontSize: 16,
+        }}
+      />
+    </Badge>
+    {/* <Badge dot>
+      <a href="#">Link something</a>
+    </Badge> */}
   </>
 );
 

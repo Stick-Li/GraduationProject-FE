@@ -25,3 +25,5 @@ export const reqDeleteOneUser = (value) => ajax('POST', BASIC_URL + '/deleteoneu
 export const reqSendMessage = (value) => ajax('POST', BASIC_URL + '/sendmessage', value)
 
 export const reqGetNoticeArr = (value) => ajax('GET', BASIC_URL + '/getnoticearr', value)
+
+export const reqChangeIsReceiveRead = (value) => ajax('GET', BASIC_URL + '/changeisread', value)

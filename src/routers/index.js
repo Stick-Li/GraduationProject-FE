@@ -7,6 +7,7 @@ import User from '../pages/User';
 import TextRoute from "../pages/TestRoute"
 import Declaration from "../pages/Info/declaration";
 import Notice from "../pages/Notice";
+import MoreNotice from "../pages/Notice/MoreNotice";
 
 const router = [
     {
@@ -50,7 +51,11 @@ const router = [
     },
     {
         path: '/notice',
-        element: <Notice />
+        element: <Notice />,
+    },
+    {
+        path: '/notice/more',
+        element: <MoreNotice />,
     },
     {
         path: '*',
