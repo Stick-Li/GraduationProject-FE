@@ -124,7 +124,7 @@ const RolePower = (props) => {
     useEffect(() => {
         // 把选中的菜单path传到父组件
         getMenuPath(checkedKeys)
-        console.log('22222')
+        console.log('22222', checkedKeys)
     });
 
 

@@ -1,20 +1,20 @@
-import { NotificationOutlined } from '@ant-design/icons';
-import { Badge } from 'antd';
+import { Input } from 'antd';
 import React from 'react';
+const { TextArea } = Input;
+
+const onChange = (e) => {
+  console.log('Change:', e.target.value);
+};
 
 const App = () => (
-  <>
-    <Badge dot>
-      <NotificationOutlined
-        style={{
-          fontSize: 16,
-        }}
-      />
-    </Badge>
-    {/* <Badge dot>
-      <a href="#">Link something</a>
-    </Badge> */}
-  </>
+  <TextArea
+    showCount
+    maxLength={500}
+    style={{
+      height: 120,
+    }}
+    onChange={onChange}
+  />
 );
 
 export default App;

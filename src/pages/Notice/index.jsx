@@ -67,11 +67,11 @@ const Notice = () => {
                             className='card'
                         >
                             <div>
-                                <div>申报题目：{JSON.parse(value.message).declarationTitle}</div>
-                                <div>题目类型：{JSON.parse(value.message).declarationType}</div>
+                                <div>题目：{JSON.parse(value.message).declarationTitle}</div>
+                                <div className='sendContent'>内容：{JSON.parse(value.message).declarationType}</div>
                             </div>
                             <br />
-                            <p>发布时间：{changeTime(value.sendTime)}</p>
+                            <p className='sendTime'>发布时间：{changeTime(value.sendTime)}</p>
                         </Card>
                     )
                 })

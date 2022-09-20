@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 import { Form, Input, Button, Modal, message } from 'antd';
 import { reqSendMessage } from '../../../api';
 import ChooseReceive from '../../../components/Info/ChooseReceive';
+import './index.less'
+const { TextArea } = Input;
 
 export default function Declaration() {
 
     const [isReceive, setIsReceive] = useState(true);
     const [receiver, setReceiver] = useState({});
+    const [form] = Form.useForm();
 
     const getReceiver = (receiver) => {
         console.log('传来的值，判断这边的button', receiver)
@@ -20,7 +23,7 @@ export default function Declaration() {
     }
 
     const onFinish = async (values) => {
-        // console.log('Success:', values);
+        console.log('Success:-----', values);
         const decInfo = {
             ...receiver,
             message: JSON.stringify(values),
@@ -33,7 +36,7 @@ export default function Declaration() {
                 content: '发布成功！',
                 duration: 2
             })
-
+            form.resetFields()
         } else {
             message.error({
                 content: `${status}：${msg}`,
@@ -45,9 +48,10 @@ export default function Declaration() {
 
     return (
         <>
-            <h1>毕业设计（论文）题目申报表</h1>
-
-            <ChooseReceive getReceiver={getReceiver} />
+            <div className='declTitle'>
+                <h1 className='sendH1'>发送消息</h1>
+                <ChooseReceive getReceiver={getReceiver} />
+            </div>
 
 
             <Form
@@ -57,8 +61,8 @@ export default function Declaration() {
                 //     remember: true,
                 // }}
                 onFinish={onFinish}
-            // ref={formRef}
-            // form={form}     // form清空
+                // ref={formRef}
+                form={form}     // form清空
             >
                 <Form.Item
                     // label=" "
@@ -70,19 +74,27 @@ export default function Declaration() {
                         },
                     ]}
                 >
-                    <Input placeholder="申报题目" />
+                    <Input placeholder="题目" />
                 </Form.Item>
                 <Form.Item
                     // label=" "
                     name="declarationType"
-                    rules={[
-                        {
-                            required: true,
-                            message: '输入不得为空！',
-                        },
-                    ]}
+                // rules={[
+                //     {
+                //         required: true,
+                //         message: '输入不得为空！',
+                //     },
+                // ]}
                 >
-                    <Input placeholder="类型" />
+                    {/* <Input placeholder="内容" /> */}
+                    <TextArea
+                        showCount
+                        maxLength={500}
+                        style={{
+                            height: 120,
+                        }}
+                    // onChange={onChange}
+                    />
                 </Form.Item>
 
                 <Form.Item

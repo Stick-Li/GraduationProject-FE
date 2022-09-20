@@ -104,7 +104,8 @@ const UsersImport = (props) => {
   // 解析数据
   const handleImportData = (arrExcal, file) => {
     console.log('嵌套数组形式的excel数据:', arrExcal)
-    const th = arrExcal.splice(0, 1)[0] //拿到 + 去掉表头
+    const th = arrExcal.splice(0, 1)[0] //拿到 + 去掉表头   splice会改变原数组
+    console.log('嵌套数组形式的excel数据2:', th, arrExcal)
 
     // 将嵌套数组改为存放对象的数组
     const newArr = arrExcal.map((value, index, array) => {
@@ -120,7 +121,7 @@ const UsersImport = (props) => {
     const data = []
     newArr.forEach((value, index, array) => {
       const dataChild = {}
-      for (const thKey in th) {
+      for (const thKey in th) {   //使用 for in 去遍历数组，得到的 key 就是数组的索引 index。
         // console.log('thKey', th[thKey])
         // console.log('value', value[thKey])
         dataChild[th[thKey]] = value[thKey]

@@ -78,6 +78,7 @@ export default function LeftNav() {
     // 这里调用接口，查user.userRole对应的menuPath(除Admin123)
     if (user.userId !== 'Admin123') {
       getMenuPath()
+      console.log('=====================重新渲染菜单')
     }
     // console.log('+++++过滤后菜单（部分）+++++', newMenuItems)
   }, []);

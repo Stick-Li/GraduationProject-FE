@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Form, Input, Button, Modal, Radio, Select } from 'antd';
 import memoryUtils from '../../utils/memoryUtils';
 import { reqGetRoles } from '../../api';
+import './index.less'
 
 const { Option } = Select;
 
@@ -65,8 +66,8 @@ const ChooseReceive = (props) => {
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
-                选择要进行通知的人
+            <Button type="primary" onClick={showModal} className='chooseReceiveBtn'>
+                选择通知人
             </Button>
             <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form
@@ -85,7 +86,7 @@ const ChooseReceive = (props) => {
                     >
                         <Input disabled placeholder='' />
                     </Form.Item>
-                    <Radio.Group onChange={onChange} value={value}>
+                    <Radio.Group onChange={onChange} value={value} className='receiver1or2'>
                         <Radio value={1}>收信人身份</Radio>
                         <Radio value={2}>收信人学号</Radio>
                     </Radio.Group>
