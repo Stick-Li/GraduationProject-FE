@@ -88,11 +88,10 @@ export default function User() {
   }
   const submitAddOneUser = async () => {
     const getAddOneUser = addOneForm.getFieldValue()
-    console.log('确定按钮，拿到所有值', getAddOneUser)
+    // console.log('确定按钮，拿到所有值', getAddOneUser)
     if (getAddOneUser.userId) {
       // 写接口，将新增用户加到user数据库
       const { status, msg } = await reqAddOneUser(getAddOneUser)
-      // console.log('result', result)
       if (status === 200) {
         message.success({
           content: '新增用户成功',
@@ -121,7 +120,7 @@ export default function User() {
   }
   // 添加用户子组件传来的useForm操作表单
   const getAddOneUserFrom = (e) => {
-    console.log('父组件拿到子组件的Form值：', e)
+    // console.log('父组件拿到子组件的Form值：', e)
     setAddOneForm(e)
   }
 
@@ -130,11 +129,7 @@ export default function User() {
     setVisibleImportUsers(true)
   }
   const submitImportUsers = async (e) => {
-    // console.log('点击确定')
-    // console.log(e)
-    // console.log(errorText)
     if (excelDataText.status === 2) {
-      // console.log('状态码是2')
       message.error({
         content: excelDataText.message,
         duration: 2
@@ -169,12 +164,12 @@ export default function User() {
   // 修改
   const showUpdateUser = (userDate) => {
     setVisibleUpdateUser(true)
-    console.log('点击更新', userDate)
-    setNowUpdateUser(userDate)
+    console.log('点击更新!!!', userDate)
+    setNowUpdateUser(userDate)  // 显示当前信息
   }
   const submitUpdateUser = async () => {
     const getAddOneUser = addOneForm.getFieldValue()
-    console.log('确定按钮，拿到所有值', getAddOneUser)
+    // console.log('确定按钮，拿到所有值', getAddOneUser)
     // 访问接口，根据_id查找人，找到更新，userId的更新不能和数据库冲突
     const { status, msg } = await reqUpdateOneUser(getAddOneUser)
     if (status === 200) {
@@ -200,7 +195,7 @@ export default function User() {
 
   // 确认删除
   const confirmDelete = async (_id) => {
-    console.log(_id);
+    // console.log(_id);
     // 删除接口
     const { status, msg } = await reqDeleteOneUser({ _id })
     if (status === 200) {
@@ -218,19 +213,11 @@ export default function User() {
 
   };
 
-  // const cancelDelete = (e) => {
-  //   console.log(e);
-  //   message.error({
-  //     content: 'Click on No',
-  //     duration: 2
-  //   });
-  // };
-
   const getUsers = async () => {
     const { status, msg, data } = await reqGetAllUsers()
     if (status === 200) {
       setUserData(data.filter(value => value.username !== 'Admin'))   // 抛了高级管理员Admin123（没ID）
-      console.log('数据库中的users值：', data)
+      // console.log('数据库中的users值：', data)
     } else {
       message.error({
         content: `${status}：${msg}`,
@@ -242,8 +229,14 @@ export default function User() {
     getUsers()
   }, []);
 
-  const card_header_left = <Button type="primary" onClick={showImportUsers} className='cardBtn'>导入用户</Button>
-  const card_header_right = <Button type="primary" onClick={showAddOneUser} className='cardBtn'>新建用户</Button>
+  const card_header_left = <span>一个按条件搜索的框</span>
+  const card_header_right = (
+    <>
+      <Button type="primary" onClick={showAddOneUser} className='cardBtn'>新建用户</Button>
+      <Button type="primary" onClick={showImportUsers} className='cardBtn'>导入用户</Button>
+    </>
+  )
+
   // const card_header_right2 = <Button type="primary" onClick={showChangeUser} className='cardBtn'>修改用户</Button>
 
   return (

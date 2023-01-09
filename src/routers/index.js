@@ -5,9 +5,18 @@ import Home from "../pages/Home";
 import Role from "../pages/Role";
 import User from '../pages/User';
 import TextRoute from "../pages/TestRoute"
+import TextRoute2 from '../pages/TestRoute/index2'
 import Declaration from "../pages/Info/declaration";
 import Notice from "../pages/Notice";
 import MoreNotice from "../pages/Notice/MoreNotice";
+// import First from '../pages/First'
+import First from '../pages/FirstPage'
+import TwoWaySelection from '../pages/TwoWaySelection'
+import MyHooks from '../pages/MyHooks'
+import TestSetState from '../pages/TestState/setState'
+import TestUseState from '../pages/TestState/useState'
+import Department from '../pages/Department'
+import PersonalInfo from '../pages/PersonalInfo'
 
 const router = [
     {
@@ -23,21 +32,42 @@ const router = [
                 element: <Role />
             },
             {
+                path: 'department',
+                element: <Department />
+            },
+            {
                 path: 'user',
                 element: <User />
             },
-            // {
-            //     path: 'one',
-            //     element: <User />
-            // },
-
             {
                 path: '/declaration',
                 element: <Declaration />
             },
             {
+                path: '/selection',
+                element: <TwoWaySelection />
+            },
+            {
                 path: 'test',
-                element: <TextRoute />
+                element: <TextRoute />,
+                children: [
+                    {
+                        path: 'test2',
+                        element: <TextRoute2 />
+                    },
+                    // {
+                    //     path: 'testsetstate',
+                    //     element: <TestSetState />
+                    // },
+                    // {
+                    //     path: 'testusestate',
+                    //     element: <TestUseState />
+                    // },
+                ]
+            },
+            {
+                path: 'myhooks',
+                element: <MyHooks />
             },
             {
                 path: '/',
@@ -48,6 +78,22 @@ const router = [
     {
         path: '/login',
         element: <Login />
+    },
+    {
+        path: '/first',
+        element: <First />
+    },
+    {
+        path: 'personalinfo',
+        element: <PersonalInfo />
+    },
+    {
+        path: 'testsetstate',
+        element: <TestSetState />
+    },
+    {
+        path: 'testusestate',
+        element: <TestUseState />
     },
     {
         path: '/notice',

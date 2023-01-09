@@ -53,6 +53,7 @@ const Notice = () => {
     )
     return (
         <div className='allCard'>
+        <Link>去Files（test）的子路由（test2）</Link>
             {
                 noticeArr.map((value) => {
                     return (

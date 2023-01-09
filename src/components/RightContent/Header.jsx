@@ -56,7 +56,7 @@ export default function RightHeader() {
                     key: '1',
                     label: (
                         // <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                        <span onClick={() => navigate('/info')}>个人信息</span>
+                        <span onClick={() => navigate('/personalinfo')}>个人信息</span>
                         // </a>
                     ),
                 },

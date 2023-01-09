@@ -12,12 +12,13 @@ const items = [
     getItem('首页', 'home', <PieChartOutlined />),
     getItem('管理', 'manage', <DesktopOutlined />, [
         getItem('角色管理', 'role'),
+        getItem('学院管理', 'department'),
         getItem('用户管理', 'user'),
         // getItem('Alex', '5'),
     ]),
     getItem('功能', 'fun', <UserOutlined />, [
         getItem('消息通知', 'declaration'),
-        
+        getItem('双向选择','selection')
         // getItem('课题申报', 'declaration'),
         // getItem('选题', '4'),
         // getItem('开题', '5'),
@@ -30,7 +31,8 @@ const items = [
     //     getItem('Team 1', '10'),
     //     getItem('Team 2', '11')
     // ]),
-    getItem('Files', 'test', <FileOutlined />),
+    getItem('草稿', 'test', <FileOutlined />),
+    getItem('我的Hooks', 'myhooks', <FileOutlined />),
 ];
 
 // if()
