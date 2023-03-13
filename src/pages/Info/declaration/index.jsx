@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, Modal, message } from 'antd';
+import { Form, Input, Button, Modal, message, List, Avatar, Card } from 'antd';
 import { reqSendMessage } from '../../../api';
 import ChooseReceive from '../../../components/Info/ChooseReceive';
 import './index.less'
@@ -44,17 +44,75 @@ export default function Declaration() {
             })
         }
     };
-
-
+    const data = [
+        {
+            title: '下发消息1',
+            description: `已结束 | 截止时间:2022/09/20 00:00 | 个人通知`
+        },
+        {
+            title: '下发消息2',
+            description: `已结束 | 截止时间:2022/09/20 00:00 | 组内通知`
+        },
+        {
+            title: '下发消息3',
+            description: `已结束 | 截止时间:2022/09/20 00:00 | 个人通知`
+        },
+        {
+            title: '下发消息4',
+            description: `已结束 | 截止时间:2022/09/20 00:00 | 组内通知`
+        },
+    ];
+    const data2 = [
+        {
+            title: '已查看',
+            content: '1'
+        },
+        {
+            title: '未查看',
+            content: '2'
+        },
+        {
+            title: '未回复',
+            content: '3'
+        },
+    ];
     return (
         <>
             <div className='declTitle'>
-                <h1 className='sendH1'>发送消息</h1>
-                <ChooseReceive getReceiver={getReceiver} />
+                <h1 className='sendH1'> 指导记录</h1>
+                <ChooseReceive className='chooseReceive' getReceiver={getReceiver} />
             </div>
+            <List
+                itemLayout="horizontal"
+                dataSource={data}
+                className='list'
+                renderItem={(item) => (
+                    <List.Item>
+                        <List.Item.Meta
+                            className='leftContent'
+                            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                            title={<a className='listItemTitle' href="https://ant.design">{item.title}</a>}
+                            description={<span className='listItemDescription'>{item.description}</span>}
+                        />
+                        <div className='rightContent'>
+                            <List
+                                grid={{
+                                    gutter: 10,
+                                    column: 3,
+                                }}
+                                dataSource={data2}
+                                renderItem={(item) => (
+                                    <List.Item>
+                                        <Card bordered={false} title={item.title}>{item.content}</Card>
+                                    </List.Item>
+                                )}
+                            />
+                        </div>
+                    </List.Item>
+                )}
+            />
 
-
-            <Form
+            {/* <Form
                 name="normal_infoA"
                 className="login-form"
                 // initialValues={{
@@ -86,7 +144,6 @@ export default function Declaration() {
                 //     },
                 // ]}
                 >
-                    {/* <Input placeholder="内容" /> */}
                     <TextArea
                         showCount
                         maxLength={500}
@@ -107,7 +164,7 @@ export default function Declaration() {
                         Submit
                     </Button>
                 </Form.Item>
-            </Form>
+            </Form> */}
         </>
 
     )

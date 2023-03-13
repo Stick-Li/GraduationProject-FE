@@ -89,6 +89,7 @@ export default function User() {
   const submitAddOneUser = async () => {
     const getAddOneUser = addOneForm.getFieldValue()
     // console.log('确定按钮，拿到所有值', getAddOneUser)
+    console.log('getAddOneUser.userId', getAddOneUser.userId)
     if (getAddOneUser.userId) {
       // 写接口，将新增用户加到user数据库
       const { status, msg } = await reqAddOneUser(getAddOneUser)
@@ -120,7 +121,7 @@ export default function User() {
   }
   // 添加用户子组件传来的useForm操作表单
   const getAddOneUserFrom = (e) => {
-    // console.log('父组件拿到子组件的Form值：', e)
+    console.log('父组件拿到子组件的Form值：', e)
     setAddOneForm(e)
   }
 

@@ -14,6 +14,7 @@ const Index = () => {
     const [visibleUpdateName, setVisibleUpdateName] = useState(false);
     const [visibleAddDept, setVisibleAddDept] = useState(false);
     const [visibleAddMajor, setVisibleAddMajor] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const [major, setMajor] = useState();
     const [allDeptInfo, setAllDeptInfo] = useState();
@@ -191,7 +192,7 @@ const Index = () => {
             render: (_, record) => (
                 <Space size="middle">
                     {/* <a onClick={() => { showUpdateName(record) }}>修改学院</a> */}
-                    <a>修改专业（需要吗？）</a>
+                    <a>修改专业</a>
                 </Space>
             ),
         },
@@ -295,6 +296,7 @@ const Index = () => {
 
     const getAllDept = async () => {
         const { status, msg, data } = await reqGetAllDept()
+        setLoading(false)
         if (status === 200) {
             console.log('拿到的数据：', data)
             let newData = []
@@ -321,50 +323,56 @@ const Index = () => {
 
     return (
         <>
-            <Card
-                title={title}
-                extra={extra}
-                className='right-content-card'
-            >
-                <Table columns={major ? columns2 : columns} dataSource={major ? allMajorInfo : allDeptInfo} />
-                <Modal
-                    title='更改学院名称'
-                    visible={visibleUpdateName}
-                    onOk={submitUpdateName}
-                    onCancel={cancelUpdateName}
-                >
-                    <Form
-                        form={formDeptUpdate}
+            {
+                loading ?
+                    <h1>loading...</h1>
+                    :
+                    <Card
+                        title={title}
+                        extra={extra}
+                        className='right-content-card'
                     >
-                        <Form.Item
-                            label="学院编号"
-                            name="deptId"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '输入不得为空！',
-                                    type: Number
-                                },
-                            ]}
+                        <Table columns={major ? columns2 : columns} dataSource={major ? allMajorInfo : allDeptInfo} />
+                        <Modal
+                            title='更改学院名称'
+                            visible={visibleUpdateName}
+                            onOk={submitUpdateName}
+                            onCancel={cancelUpdateName}
                         >
-                            <Input disabled />
-                        </Form.Item>
-                        <Form.Item
-                            label="学院名称"
-                            name="deptName"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '输入不得为空！',
-                                    type: String
-                                },
-                            ]}
-                        >
-                            <Input />
-                        </Form.Item>
-                    </Form>
-                </Modal>
-            </Card>
+                            <Form
+                                form={formDeptUpdate}
+                            >
+                                <Form.Item
+                                    label="学院编号"
+                                    name="deptId"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: '输入不得为空！',
+                                            type: Number
+                                        },
+                                    ]}
+                                >
+                                    <Input disabled />
+                                </Form.Item>
+                                <Form.Item
+                                    label="学院名称"
+                                    name="deptName"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: '输入不得为空！',
+                                            type: String
+                                        },
+                                    ]}
+                                >
+                                    <Input />
+                                </Form.Item>
+                            </Form>
+                        </Modal>
+                    </Card>
+            }
+
         </>
     );
 }

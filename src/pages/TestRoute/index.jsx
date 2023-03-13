@@ -1,4 +1,4 @@
-import { Alert, Avatar, Button, List, Select, Skeleton, Tooltip } from 'antd';
+import { Alert, Avatar, Button, List, Select, Skeleton, Table, Tabs, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import { reqSelectTeachers } from '../../api';
 import SelectiveSeq from '../../components/SelectiveSeq'
@@ -89,8 +89,104 @@ const App = () => {
     console.log('===添加志愿老师的请求', result)
 
   }
+  // const onChange = (key) => {
+  //   console.log(key);
+  // };
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      filters: [
+        {
+          text: '李1',
+          value: '李1',
+        },
+        {
+          text: '建',
+          value: '建',
+        },
+        {
+          text: 'lv youyou',
+          value: 'lv youyou',
+        },
+      ],
+      filterMode: 'tree',
+      filterSearch:true,
+      // filterSearch: (value, item) => {
+      //   console.log('value, item', value, item)
+      //   return item.title.includes(value)
+      // },
+      onFilter: (value, record) => {
+        console.log('value, record', value, record)
+        return record.name.includes(value)
+      },
+      width: '30%',
+    },
+    {
+      title: 'Age',
+      dataIndex: 'age',
+      sorter: (a, b) => a.age - b.age,
+    },
+    {
+      title: 'Address',
+      dataIndex: 'address',
+      filters: [
+        {
+          text: 'London',
+          value: 'London',
+        },
+        {
+          text: 'New York',
+          value: 'New York',
+        },
+      ],
+      onFilter: (value, record) => record.address.includes(value),
+      filterSearch: true,
+      width: '40%',
+    },
+  ];
+  const data = [
+    {
+      key: '1',
+      name: '李建勋',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+    },
+    {
+      key: '2',
+      name: '赵建国',
+      age: 42,
+      address: 'London No. 1 Lake Park',
+    },
+    {
+      key: '3',
+      name: '红小豆',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park',
+    },
+    {
+      key: '4',
+      name: '芋圆',
+      age: 32,
+      address: 'London No. 2 Lake Park',
+    },
+  ];
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log('params', pagination, filters, sorter, extra);
+  };
   return (
     <>
+      ceshi
+      <Table columns={columns} dataSource={data} onChange={onChange} />
+      {/* <Tabs defaultActiveKey="1" onChange={onChange}>
+        <Tabs.TabPane tab="所有同学" key="1">
+          Content of Tab Pane 1
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="选择我的同学" key="2">
+          Content of Tab Pane 2
+        </Tabs.TabPane>
+      </Tabs> */}
+
       {/* <Alert message="选择完毕后点击“确定选择”提交" type="info" showIcon />
       <button>所有导师</button>
       <button>已经选择</button>

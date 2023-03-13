@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Tree } from 'antd';
+// 之后做把router改成这个
 const treeData = [
     {
         // title: '0-0',
@@ -39,6 +40,11 @@ const treeData = [
                         key: 'role',
                     },
                     {
+                        title: '学院管理',
+                        // key: '0-0-1-0',
+                        key: 'department',
+                    },
+                    {
                         title: '用户管理',
                         key: 'user',
                     },
@@ -50,14 +56,14 @@ const treeData = [
                 key: 'fun',
                 children: [
                     {
-                        title: '课题申报',
+                        title: '消息通知',
                         // key: '0-0-1-0',
                         key: 'declaration',
                     },
-                    // {
-                    //     title: '用户管理',
-                    //     key: 'user',
-                    // },
+                    {
+                        title: '双向选择',
+                        key: 'selection',
+                    },
                 ],
             },
             // {

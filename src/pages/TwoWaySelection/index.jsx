@@ -1,6 +1,7 @@
 import React from 'react'
 import memoryUtils from '../../utils/memoryUtils';
 import StuView from '../../components/StuView'
+import TchView from '../../components/TchView'
 
 
 export default function index() {
@@ -21,13 +22,18 @@ export default function index() {
         学生：可以看到教师的列表
         教务处/二级学院：看到教师和学生的列表
        */}
-      <div style={role !== '学生' ? null : { 'display': 'none' }}>
+      {/* <div style={role !== '学生' ? null : { 'display': 'none' }}> */}
+      {/* {
+        console.log(role)
+      } */}
+      <div style={role === '老师' ? null : { 'display': 'none' }}>
         {/* 教师等视角 */}
         {studentInfosList}
+        <TchView />
       </div>
-      <hr />
+      {/* <hr /> */}
       {/* 将工号传递到后端，查找所有学生的志愿，有包含工号的就拿过来 */}
-      <div style={role !== '教师' ? null : { 'display': 'none' }}>
+      <div style={role === '学生' ? null : { 'display': 'none' }}>
         {/* 学生等视角 */}
         {teacherInfosList}
         <StuView />

@@ -19,17 +19,19 @@ const UserAdd = (props) => {
     const [changeInfo, setChangeInfo] = useState();
 
 
-    useEffect(() => {
-        console.log(props.changeUser.userId, nowUserInfo.userId)
+    // useEffect(() => {
+    //     // console.log(props.changeUser.userId, nowUserInfo.userId)
+    //     console.log(props.changeUser)
+    //     console.log(nowUserInfo.userId)
 
-        if (props.changeUser.userId !== nowUserInfo.userId) {
-            form.setFieldsValue(props.changeUser)
-            console.log('不是同一个人，页面重新渲染，填充选择的信息到弹出框', props.changeUser)
-            setNowUserInfo(props.changeUser)
-        } else {
-            console.log('是同一个人，页面不重新渲染')
-        }
-    },);
+    //     if (props.changeUser.userId !== nowUserInfo.userId) {
+    //         form.setFieldsValue(props.changeUser)
+    //         console.log('不是同一个人，页面重新渲染，填充选择的信息到弹出框', props.changeUser)
+    //         setNowUserInfo(props.changeUser)
+    //     } else {
+    //         console.log('是同一个人，页面不重新渲染')
+    //     }
+    // },);
 
     useEffect(() => {
         props.getAddOneUserFrom(form)

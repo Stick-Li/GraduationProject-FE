@@ -142,16 +142,7 @@ const App = () => {
         //         title: 'Ant Design Title 3',
         //     }
         // ]
-        let chooseTeachersInfo = []
-        for (let i = 1; i <= 3; i++) {
-            chooseTeachersInfo.push({
-                userId: data['value' + i].userId,
-                username: data['value' + i].username,
-                title: '还没想好写啥',
-            })
-        }
-        console.log('data', data)
-        console.log('chooseTeachersInfo', chooseTeachersInfo)
+
         // let arr = []
         // for (const key in data) {
         //     let info = {
@@ -173,8 +164,21 @@ const App = () => {
         //     }
         // })
         // if (status === 200) setIsHaveStuValue(data)
-        if (status === 200) setIsHaveStuValue(chooseTeachersInfo)
-        else allTch()       //该用户还未选择导师，此时显示所有导师数据
+        if (status === 200) {
+            let chooseTeachersInfo = []
+            for (let i = 1; i <= 3; i++) {
+                chooseTeachersInfo.push({
+                    userId: data['value' + i].userId,
+                    username: data['value' + i].username,
+                    title: '还没想好写啥',
+                })
+            }
+            console.log('data', data)
+            console.log('chooseTeachersInfo', chooseTeachersInfo)
+            setIsHaveStuValue(chooseTeachersInfo)
+        } else {
+            allTch()       //该用户还未选择导师，此时显示所有导师数据
+        }
         console.log(status, data)
         console.log('-----', isHaveStuValue)
     }
@@ -195,15 +199,24 @@ const App = () => {
     }
 
     useEffect(() => {
+        console.log('isHaveStuValue', isHaveStuValue)
+        console.log('memoryUtils.user.valueThu', memoryUtils.user.valueThu)
+        let stuValue = []
+        for (const key in memoryUtils.user.valueThu) {
+            stuValue.push(memoryUtils.user.valueThu[key])
+        }
         if (memoryUtils.user.valueThu) {
-            setIsHaveStuValue(true)
+            console.log('1.登录时学生已经选择老师了，IsHaveStuValue为true')
+            setIsHaveStuValue(stuValue)
         } else {
+            console.log('2.登录时学生还没选老师，所以信息没有被存储到webStorage，要去数据库中再找找看有没有选')
             getStuValue()
         }
     }, []);
 
     console.log('1-2')
     return (
+        // <>啥啊</>
         <>
             {
                 // console.log('1-3'),
@@ -213,7 +226,7 @@ const App = () => {
                             <span>我的志愿</span>
                             <List
                                 itemLayout="horizontal"
-                                dataSource={isHaveStuValue || null}
+                                dataSource={isHaveStuValue || undefined}
                                 renderItem={(item, index) => (
                                     <List.Item
                                         actions={[<a key="list-loadmore-more">more</a>]}

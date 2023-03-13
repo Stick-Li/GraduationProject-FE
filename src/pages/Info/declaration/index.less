@@ -1,12 +1,65 @@
 .declTitle {
     display: flex;
     flex-direction: row;
-    // justify-content: center;
+    justify-content: space-between;
     align-items: center;
 
     .sendH1 {
         font-size: large;
         // float: left;
         padding: 0 10px;
+    }
+
+    .chooseReceive {
+        background: palevioletred;
+        float: right;
+    }
+}
+
+.list {
+
+    // display: flex;
+    // justify-content: space-between;
+    .leftContent {
+        width: 70%;
+
+        .listItemTitle {
+            font-weight: bold;
+        }
+
+        .listItemDescription {
+            font-size: 0.8em;
+        }
+    }
+
+    .rightContent {
+        width: 30%;
+
+        .ant-row {
+            float: right;
+            .ant-list-item{
+                .ant-list-item{
+                    margin-bottom: 0;
+                }
+                .ant-card-head-title {
+                    padding: 0;
+                    // overflow: auto;
+                    white-space: nowrap;
+                    text-overflow: initial;
+                }
+    
+                .ant-card-head,
+                .ant-card-body {
+                    padding: 5px;
+                    text-align: center;
+                    min-height: 1em;
+                }
+    
+                // width: 30%;
+                .ant-card-head-title {
+                    font-size: 0.5em;
+                }
+            }
+        }
     }
 }
