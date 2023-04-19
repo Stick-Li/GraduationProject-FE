@@ -9,7 +9,7 @@ const StartScoreHandle = () => {
     const [score, setScore] = useState(2);
     
     const handleStore = (e) => {
-        console.log(e + 1)
+        // console.log(e + 1)
         setScore(e + 1)
     }
     return (

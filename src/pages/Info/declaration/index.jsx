@@ -1,25 +1,79 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Form, Input, Button, Modal, message, List, Avatar, Card } from 'antd';
 import { reqSendMessage } from '../../../api';
 import ChooseReceive from '../../../components/Info/ChooseReceive';
 import './index.less'
+import { UserOutlined } from '@ant-design/icons';
+import memoryUtils from '../../../utils/memoryUtils';
 const { TextArea } = Input;
+
+const data = [
+    {
+        title: `日常指导-测试下发消息1`,
+        description: `个人指导：个人的消息内容 个人的消息内容 个人的消息内容。。。`
+    },
+    {
+        title: '答辩环节记录-中期检查-测试下发消息2',
+        description: `组内指导：组内发的消息内容 组内发的消息内容 组内发的消息内容。。。`
+    },
+    {
+        title: '日常指导-日常',
+        description: `组内指导：指导`
+    },
+    // {
+    //     title: '下发消息4',
+    //     description: `已结束 | 截止时间:2022/09/20 00:00 | 组内通知`
+    // },
+];
 
 export default function Declaration() {
 
     const [isReceive, setIsReceive] = useState(true);
     const [receiver, setReceiver] = useState({});
+    const [dataInfo, setDataInfo] = useState(data);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+
     const [form] = Form.useForm();
+    const modelRef = useRef({ 'title': '题目', 'description': '详细内容' })
+
+
+    const showModal = (data) => {
+        setIsModalOpen(true);
+        modelRef.current = data
+        console.log(11111)
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
 
     const getReceiver = (receiver) => {
         console.log('传来的值，判断这边的button', receiver)
-        if (receiver.receiverRole || receiver.receiverId) {
-            setReceiver(receiver)
-            setIsReceive(false)
-            // console.log(message)
-        } else {
-            setIsReceive(true)
-        }
+        const dataArr = [...data]
+        dataArr.push({
+            // title: receiver.chooseLink==='richang'?'日常指导':'答辩环节记录'+`-${receiver.receiverTitle}`,
+            title: (
+                receiver.chooseLink === 'richang' ? '日常指导' :
+                    receiver.chooseLink === 'kaiti' ?
+                        '答辩环节记录-开题答辩' : receiver.chooseLink === 'zhongqi' ?
+                            '答辩环节记录-中期检查' : receiver.chooseLink === 'lunwen' ?
+                                '答辩环节记录-最终论文答辩' : null
+            ) + `-${receiver.receiverTitle}`,
+            description: (receiver.receiverId ? '个人指导' : '组内指导') + `：${receiver.receiverContent}`,
+            chooseLink: receiver.chooseLink
+        })
+        setDataInfo(dataArr)
+        // if (receiver.receiverRole || receiver.receiverId) {
+        //     setReceiver(receiver)
+        //     setIsReceive(false)
+        //     // console.log(message)
+        // } else {
+        //     setIsReceive(true)
+        // }
     }
 
     const onFinish = async (values) => {
@@ -44,36 +98,19 @@ export default function Declaration() {
             })
         }
     };
-    const data = [
-        {
-            title: '下发消息1',
-            description: `已结束 | 截止时间:2022/09/20 00:00 | 个人通知`
-        },
-        {
-            title: '下发消息2',
-            description: `已结束 | 截止时间:2022/09/20 00:00 | 组内通知`
-        },
-        {
-            title: '下发消息3',
-            description: `已结束 | 截止时间:2022/09/20 00:00 | 个人通知`
-        },
-        {
-            title: '下发消息4',
-            description: `已结束 | 截止时间:2022/09/20 00:00 | 组内通知`
-        },
-    ];
+
     const data2 = [
         {
             title: '已查看',
-            content: '1'
+            // content: '1'
         },
         {
             title: '未查看',
-            content: '2'
+            // content: '2'
         },
         {
             title: '未回复',
-            content: '3'
+            // content: '3'
         },
     ];
     return (
@@ -84,14 +121,14 @@ export default function Declaration() {
             </div>
             <List
                 itemLayout="horizontal"
-                dataSource={data}
+                dataSource={dataInfo}
                 className='list'
                 renderItem={(item) => (
                     <List.Item>
                         <List.Item.Meta
                             className='leftContent'
-                            avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                            title={<a className='listItemTitle' href="https://ant.design">{item.title}</a>}
+                            avatar={<Avatar icon={<UserOutlined />} className='userImg' />}
+                            title={<a className='listItemTitle' onClick={() => { showModal(item) }}>{item.title}</a>}
                             description={<span className='listItemDescription'>{item.description}</span>}
                         />
                         <div className='rightContent'>
@@ -111,60 +148,15 @@ export default function Declaration() {
                     </List.Item>
                 )}
             />
-
-            {/* <Form
-                name="normal_infoA"
-                className="login-form"
-                // initialValues={{
-                //     remember: true,
-                // }}
-                onFinish={onFinish}
-                // ref={formRef}
-                form={form}     // form清空
-            >
-                <Form.Item
-                    // label=" "
-                    name="declarationTitle"
-                    rules={[
-                        {
-                            required: true,
-                            message: '输入不得为空！',
-                        },
-                    ]}
-                >
-                    <Input placeholder="题目" />
-                </Form.Item>
-                <Form.Item
-                    // label=" "
-                    name="declarationType"
-                // rules={[
-                //     {
-                //         required: true,
-                //         message: '输入不得为空！',
-                //     },
-                // ]}
-                >
-                    <TextArea
-                        showCount
-                        maxLength={500}
-                        style={{
-                            height: 120,
-                        }}
-                    // onChange={onChange}
-                    />
-                </Form.Item>
-
-                <Form.Item
-                    wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}
-                >
-                    <Button type="primary" htmlType="submit" disabled={isReceive}>
-                        Submit
-                    </Button>
-                </Form.Item>
-            </Form> */}
+            <Modal title={modelRef.current.title} visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                {
+                    memoryUtils.user.userRole === '学生' ?
+                        modelRef.current.chooseLink === 'kaiti' ? '点击跳转至开题报告页面填写' :
+                            modelRef.current.chooseLink === 'zhongqi' ? '点击跳转至中期检查页面填写' :
+                                modelRef.current.chooseLink === 'lunwen' ? '点击跳转至申请最终论文答辩页面填写' : null : null
+                }
+                <p>{modelRef.current.description.slice(modelRef.current.description.indexOf('：') + 1)}</p>
+            </Modal>
         </>
 
     )

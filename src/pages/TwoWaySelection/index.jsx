@@ -15,7 +15,7 @@ export default function index() {
   )
   return (
     <>
-      <h1>双向选择</h1>
+      {/* <h1>双向选择</h1> */}
       {/* 
         根据user内容判断是教师还是学生还是教务处，然后展示页面
         教师：可以看到学生的列表
@@ -26,16 +26,16 @@ export default function index() {
       {/* {
         console.log(role)
       } */}
-      <div style={role === '老师' ? null : { 'display': 'none' }}>
+      <div style={role === '老师' || role === '专业负责人' ? null : { 'display': 'none' }}>
         {/* 教师等视角 */}
-        {studentInfosList}
-        <TchView />
+        {/* {studentInfosList} */}
+        <TchView role={role} />
       </div>
       {/* <hr /> */}
       {/* 将工号传递到后端，查找所有学生的志愿，有包含工号的就拿过来 */}
       <div style={role === '学生' ? null : { 'display': 'none' }}>
         {/* 学生等视角 */}
-        {teacherInfosList}
+        {/* {teacherInfosList} */}
         <StuView />
       </div>
       {/* 

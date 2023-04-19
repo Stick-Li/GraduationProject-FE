@@ -31,14 +31,14 @@ export default function RightHeader() {
     const getNoticeArr = async () => {
         const { data } = await reqGetNoticeArr({ receiverId: memoryUtils.user.userId })
         setNoticeArr(data)
-        console.log('****', data)
+        // console.log('****', data)
         const notReadArr = data.filter((value, index, array) => {
             return value.isReceiveRead === false
         })
-        console.log('****', notReadArr)
+        // console.log('****', notReadArr)
         setBadgeCount(notReadArr.length)      // 只有刷新app才会展示最新结果，如何实现实时？
         // 点击信息去看信息
-        console.log('------', noticeArr)
+        // console.log('------', noticeArr)
     }
     // const getNoticeArr = () => {
     //     setNoticeArr(noticeData)

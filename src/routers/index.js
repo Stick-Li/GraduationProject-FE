@@ -17,6 +17,11 @@ import TestSetState from '../pages/TestState/setState'
 import TestUseState from '../pages/TestState/useState'
 import Department from '../pages/Department'
 import PersonalInfo from '../pages/PersonalInfo'
+import Report from '../pages/Report'
+import Xuantishenbao from "../pages/Files/xuantishenbao";
+import Kaitibaogao from '../pages/Files/kaitibaogao'
+import Zhongqijiancha from '../pages/Files/zhongqijiancha'
+import Shenqingdabian from '../pages/Files/shenqingdabian'
 
 const router = [
     {
@@ -47,6 +52,28 @@ const router = [
                 path: '/selection',
                 element: <TwoWaySelection />
             },
+            {
+                path: '/report',
+                element: <Report />
+            },
+            // 表们
+            {
+                path: '/xuantishenbao',
+                element: <Xuantishenbao />
+            },
+            {
+                path: '/kaitibaogao',
+                element: <Kaitibaogao />
+            },
+            {
+                path: '/zhongqijiancha',
+                element: <Zhongqijiancha />
+            },
+            {
+                path: '/shenqingdabian',
+                element: <Shenqingdabian />
+            },
+            // 表们
             {
                 path: 'test',
                 element: <TextRoute />,

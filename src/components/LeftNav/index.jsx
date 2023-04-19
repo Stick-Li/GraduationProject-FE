@@ -37,28 +37,30 @@ export default function LeftNav() {
 
   // const filterMenu = (newMenuPath, oldMenu) => {
   const filterMenu = (newMenuPath, oldMenu) => {
-
-    for (let i = oldMenu.length - 1; i >= 0; i--) {
-      console.log(oldMenu[i])
-      if (!newMenuPath.includes(oldMenu[i].key)) {
-        oldMenu.splice(i, 1);
-      } else {
-        if (oldMenu[i].children) {
-          for (let j = oldMenu[i].children.length - 1; j >= 0; j--) {
-            if (!newMenuPath.includes(oldMenu[i].children[j].key)) {
-              oldMenu[i].children.splice(j, 1)
-            }
-          }
-        }
-      }
-    }
+    console.log('[][][][]', newMenuPath, oldMenu)
+    // 此处有大bug妈的烦死
+    // for (let i = oldMenu.length - 1; i >= 0; i--) {
+    //   // console.log(oldMenu[i])
+    //   if (!newMenuPath.includes(oldMenu[i].key)) {
+    //     oldMenu.splice(i, 1);
+    //   } else {
+    //     if (oldMenu[i].children) {
+    //       for (let j = oldMenu[i].children.length - 1; j >= 0; j--) {
+    //         if (!newMenuPath.includes(oldMenu[i].children[j].key)) {
+    //           oldMenu[i].children.splice(j, 1)
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
     return oldMenu;
   }
 
   const getMenuPath = async () => {
     const { status, msg, menuPath } = await reqGetMenuPath(user.userRole)
+    console.log('!!!!!!!', status, msg, menuPath)
     if (status === 200) {
-      console.log('menuPath', menuPath)
+      // console.log('menuPath', menuPath)
       console.log('+++++b.过滤前菜单（所有）+++++', [...items])
       const b = await filterMenu(menuPath, [...items])
       console.log('+++++b.过滤后菜单（部分）+++++', b)
@@ -80,7 +82,7 @@ export default function LeftNav() {
       getMenuPath()
       console.log('=====================重新渲染菜单')
     }
-    // console.log('+++++过滤后菜单（部分）+++++', newMenuItems)
+    console.log('+++++过滤后菜单（部分）+++++', newMenuItems)
   }, []);
 
 

@@ -163,7 +163,7 @@ export default function Role() {
     };
 
 
-
+    const card_header_left = <span>角色列表</span>
     const card_header = (
         <span>
             <Button type="primary" onClick={showAddModal} className='cardBtn'>新建身份</Button>
@@ -173,7 +173,7 @@ export default function Role() {
 
     return (
         <Card
-            // title="Default size card"
+            title={card_header_left}
             extra={card_header}
             className='right-content-card'
         >

@@ -19,19 +19,24 @@ const UserAdd = (props) => {
     const [changeInfo, setChangeInfo] = useState();
 
 
-    // useEffect(() => {
-    //     // console.log(props.changeUser.userId, nowUserInfo.userId)
-    //     console.log(props.changeUser)
-    //     console.log(nowUserInfo.userId)
+    useEffect(() => {
+        // console.log(props.changeUser.userId, nowUserInfo.userId)
+        // console.log('???????', props.changeUser)
+        // console.log(nowUserInfo.userId)
+        if (props.changeUser) {
+            // console.log('props.changeUser存在，不应为空')
+            if (props.changeUser.userId !== nowUserInfo.userId) {
+                form.setFieldsValue(props.changeUser)
+                console.log('不是同一个人，页面重新渲染，填充选择的信息到弹出框', props.changeUser)
+                setNowUserInfo(props.changeUser)
+            } else {
+                console.log('是同一个人，页面不重新渲染')
+            }
+        }else{
+            console.log('props.changeUser不存在，为空')
+        }
 
-    //     if (props.changeUser.userId !== nowUserInfo.userId) {
-    //         form.setFieldsValue(props.changeUser)
-    //         console.log('不是同一个人，页面重新渲染，填充选择的信息到弹出框', props.changeUser)
-    //         setNowUserInfo(props.changeUser)
-    //     } else {
-    //         console.log('是同一个人，页面不重新渲染')
-    //     }
-    // },);
+    },);
 
     useEffect(() => {
         props.getAddOneUserFrom(form)
@@ -86,7 +91,7 @@ const UserAdd = (props) => {
                 rules={[
                     {
                         required: true, // 必填样式设置
-                        message: 'Please input your username!',
+                        message: 'Please input your userId!',
                     },
                 ]}
             >
@@ -95,6 +100,12 @@ const UserAdd = (props) => {
             <Form.Item
                 label="姓名"
                 name="username"
+                rules={[
+                    {
+                        required: true, // 必填样式设置
+                        message: 'Please input your username!',
+                    },
+                ]}
             >
                 <Input />
             </Form.Item>
@@ -107,6 +118,12 @@ const UserAdd = (props) => {
             <Form.Item
                 label="学院"
                 name="userInstitute"
+                rules={[
+                    {
+                        required: true, // 必填样式设置
+                        message: 'Please input your userInstitute!',
+                    },
+                ]}
             >
                 {/* <Input /> */}
                 <Select
@@ -124,6 +141,12 @@ const UserAdd = (props) => {
             <Form.Item
                 label="专业"
                 name="userSubject"
+                rules={[
+                    {
+                        required: true, // 必填样式设置
+                        message: 'Please input your userSubject!',
+                    },
+                ]}
             >
                 {/* <Input /> */}
                 <Select

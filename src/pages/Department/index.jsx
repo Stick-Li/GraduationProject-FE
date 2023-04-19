@@ -24,12 +24,12 @@ const Index = () => {
 
 
     const showAddDept = () => {
-        console.log('点击更新2')
+        // console.log('点击更新2')
         setVisibleAddDept(true)
     }
     const submitAddDept = async () => {
         const formValue = formDept.getFieldsValue()
-        console.log('获取form的值', formValue)
+        // console.log('获取form的值', formValue)
         const { status, msg } = await reqAddDepartment(formValue)
         if (status === 200) {
             message.success({
@@ -52,14 +52,14 @@ const Index = () => {
 
 
     const showUpdateName = (deptData) => {
-        console.log('点击更新，获取点击的值', deptData)
+        // console.log('点击更新，获取点击的值', deptData)
         formDeptUpdate.setFieldsValue(deptData)
         setClickDeptInfo(deptData)
         setVisibleUpdateName(true)
     }
     const submitUpdateName = async () => {
         const formValue = formDeptUpdate.getFieldsValue()
-        console.log('获取form2的值', formValue)
+        // console.log('获取form2的值', formValue)
         // if (JSON.stringify(clickDeptInfo.deptName) === JSON.stringify(formValue.deptName)) {
         if (clickDeptInfo.deptName === formValue.deptName) {
             console.log('相同，不用调起改变的接口')
@@ -90,7 +90,7 @@ const Index = () => {
     const getDBMajorInfo = async (majorData) => {
         const { status, msg, data } = await reqGetAllMajor(majorData.deptId)
         if (status === 200) {
-            console.log('拿到的数据：', data)
+            // console.log('拿到的数据：', data)
             setAllMajorInfo(data)
         } else {
             message.error({
@@ -101,8 +101,8 @@ const Index = () => {
     }
 
     const getAllMajors = (majorData) => {
-        console.log('点击跳转至学院包含的专业')
-        console.log('点击，获取点击的值', majorData)
+        // console.log('点击跳转至学院包含的专业')
+        // console.log('点击，获取点击的值', majorData)
         // {key: '63b8103d93b2521e5c9c06b1', deptName: '商学院', deptId: 2}
         setClickDeptForMajor(majorData)
 
@@ -115,7 +115,7 @@ const Index = () => {
     }
     const submitAddMajor = async () => {
         const formValue = formMajor.getFieldsValue()
-        console.log('获取formMajor1的值', formValue)
+        // console.log('获取formMajor1的值', formValue)
         // {majorId: '080901', majorName: '计算机科学与技术'}
         let newData = { ...clickDeptForMajor, ...formValue }
         newData.key = "" + clickDeptForMajor.deptId + "-" + formValue.majorId
@@ -298,7 +298,7 @@ const Index = () => {
         const { status, msg, data } = await reqGetAllDept()
         setLoading(false)
         if (status === 200) {
-            console.log('拿到的数据：', data)
+            // console.log('拿到的数据：', data)
             let newData = []
             data.forEach((value) => {
                 newData.push({
@@ -308,7 +308,7 @@ const Index = () => {
                 })
             })
             setAllDeptInfo(newData)
-            console.log('新的数据', newData)
+            // console.log('新的数据', newData)
         } else {
             message.error({
                 content: `${status}：${msg}`,

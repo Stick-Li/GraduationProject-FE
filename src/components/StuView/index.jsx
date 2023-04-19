@@ -3,49 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { reqGetAllTeachers, reqIsHaveStuValue, reqSelectTeachers } from '../../api';
 import SelectiveSeq from '../SelectiveSeq'
 import memoryUtils from '../../utils/memoryUtils';
+import { UserOutlined } from '@ant-design/icons';
 
-// const allTeachersInfo = [
-//     {
-//         userId: '190201323',
-//         username: '姜饼人老师',
-//         title: 'Ant Design Title 1',
-//     },
-//     {
-//         userId: '190201324',
-//         username: '姜饼人老师2',
-//         title: 'Ant Design Title 2',
-//     },
-//     {
-//         userId: '190201325',
-//         username: '姜饼人老师3',
-//         title: 'Ant Design Title 3',
-//     },
-//     {
-//         userId: '190201326',
-//         username: '姜饼人老师4',
-//         title: 'Ant Design Title 4',
-//     },
-// ];
-// const chooseTeachersInfo = [
-//     {
-//         userId: '190201323',
-//         username: '姜饼人老师',
-//         title: 'Ant Design Title 1',
-//     },
-//     {
-//         userId: '190201324',
-//         username: '姜饼人老师2',
-//         title: 'Ant Design Title 2',
-//     },
-//     {
-//         userId: '190201325',
-//         username: '姜饼人老师3',
-//         title: 'Ant Design Title 3',
-//     }
-// ]
 let selectInfo = new Map()
 
-console.log('1-1')
+// console.log('1-1')
 
 const App = () => {
     const [isAllSelect, setIsAllSelect] = useState(false);
@@ -59,7 +21,7 @@ const App = () => {
             console.log('警报！undefined！', valueSql, valueInfo)
 
             for (const [key, value] of selectInfo.entries()) {
-                console.log('key, value', key, value)
+                // console.log('key, value', key, value)
                 if (JSON.stringify(value) === JSON.stringify(valueInfo)) {
                     // if (value === valueInfo.userId) {
                     selectInfo.delete(key)
@@ -67,7 +29,7 @@ const App = () => {
                     let newIsDisabledValue = { ...isDisabledValue }
                     newIsDisabledValue[key] = false
                     setIsDisabledValue(newIsDisabledValue)
-                    console.log(3, selectInfo)
+                    // console.log(3, selectInfo)
                     break;
                 }
             }
@@ -103,10 +65,11 @@ const App = () => {
             // selectInfoObj[key] = value.userId
             selectInfoObj[key] = value
         }
+        // console.log(selectInfo)
         // console.log(selectInfoObj)
         // 我_id变化了？？？？？？？,
         const { status, msg } = await reqSelectTeachers([memoryUtils.user.userId, selectInfoObj])
-        console.log('===添加志愿老师的请求', status, msg)
+        // console.log('===添加志愿老师的请求', status, msg)
         if (status === 200) {
             message.success({
                 content: msg,
@@ -125,45 +88,7 @@ const App = () => {
 
     const getStuValue = async () => {
         const { status, data } = await reqIsHaveStuValue(memoryUtils.user.userId)
-        // const chooseTeachersInfo0 = [
-        //     {
-        //         userId: '190201323',
-        //         username: '姜饼人老师',
-        //         title: 'Ant Design Title 1',
-        //     },
-        //     {
-        //         userId: '190201324',
-        //         username: '姜饼人老师2',
-        //         title: 'Ant Design Title 2',
-        //     },
-        //     {
-        //         userId: '190201325',
-        //         username: '姜饼人老师3',
-        //         title: 'Ant Design Title 3',
-        //     }
-        // ]
 
-        // let arr = []
-        // for (const key in data) {
-        //     let info = {
-        //         userId: data.userId,
-        //         username: data.username,
-        //         title: '还没想好写啥',
-        //     }
-        //     console.log(key, data[key])
-        //     arr.push(key.slice(-1) * 1)
-        // }
-        // console.log('arr', arr)
-
-        // 123 132 213 231 312 321
-        // data.forEach((value, index, array) => {
-        //     chooseTeachersInfo[0] = {
-        //         userId: value.userId,
-        //         username: value.username,
-        //         title: '还没想好写啥',
-        //     }
-        // })
-        // if (status === 200) setIsHaveStuValue(data)
         if (status === 200) {
             let chooseTeachersInfo = []
             for (let i = 1; i <= 3; i++) {
@@ -173,14 +98,14 @@ const App = () => {
                     title: '还没想好写啥',
                 })
             }
-            console.log('data', data)
-            console.log('chooseTeachersInfo', chooseTeachersInfo)
+            // console.log('data', data)
+            // console.log('chooseTeachersInfo', chooseTeachersInfo)
             setIsHaveStuValue(chooseTeachersInfo)
         } else {
             allTch()       //该用户还未选择导师，此时显示所有导师数据
         }
-        console.log(status, data)
-        console.log('-----', isHaveStuValue)
+        // console.log(status, data)
+        // console.log('-----', isHaveStuValue)
     }
 
     const allTch = async () => {
@@ -188,8 +113,20 @@ const App = () => {
         const { status, msg, data } = await reqGetAllTeachers()
         if (status === 200) {
             // 做一个数据加载出来前的加载效果
-            console.log('data', data)
-            setAllTeachersInfo(data)
+            // console.log('data', data)
+            // console.log('memoryUtils.user', memoryUtils.user)
+            // 根据当前专业筛选老师 data.userSubject: "工业设计"
+            const subjectData = data.filter((value, index, array) => {
+                return value.userSubject === memoryUtils.user.userSubject
+            })
+            const dataWithTitle = subjectData.map((value, index, array) => {
+                if (value.userId == '000201324') {
+                    return { ...value, titles: '某管理系统的的设计与实现 | 某后台项目的的设计与实现' }
+                }
+                return value
+            })
+            console.log(dataWithTitle, '!!!!!!')
+            setAllTeachersInfo(dataWithTitle)
         } else {
             message.error({
                 content: `${status}：${msg}`,
@@ -199,8 +136,8 @@ const App = () => {
     }
 
     useEffect(() => {
-        console.log('isHaveStuValue', isHaveStuValue)
-        console.log('memoryUtils.user.valueThu', memoryUtils.user.valueThu)
+        // console.log('isHaveStuValue', isHaveStuValue)
+        // console.log('memoryUtils.user.valueThu', memoryUtils.user.valueThu)
         let stuValue = []
         for (const key in memoryUtils.user.valueThu) {
             stuValue.push(memoryUtils.user.valueThu[key])
@@ -234,12 +171,12 @@ const App = () => {
                                         <List.Item.Meta
                                             avatar={
                                                 <>
-                                                    <span>志愿{index + 1}</span>
-                                                    <Avatar src="" />
+                                                    <span style={{ 'margin': '0 10px 0 0 ' }}>志愿{index + 1}</span>
+                                                    <Avatar icon={<UserOutlined />} className='userImg' />
                                                 </>
                                             }
                                             title={<span>{item.username}</span>}
-                                            description=""
+                                            description={item.titles}
                                         />
                                     </List.Item>
                                 )}
@@ -266,9 +203,9 @@ const App = () => {
                                         }
                                     >
                                         <List.Item.Meta
-                                            avatar={<Avatar src="" />}
+                                            avatar={<Avatar icon={<UserOutlined />} className='userImg' />}
                                             title={<span>{item.username}</span>}
-                                            description="教师的部分课题"
+                                            description={item.titles}
                                         />
                                     </List.Item>
                                 )}

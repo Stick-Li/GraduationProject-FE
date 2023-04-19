@@ -9,7 +9,7 @@ export default function RightFooter() {
                 textAlign: 'center',
             }}
         >
-            Ant Design ©2018 Created by Ant UED
+            北京工业大学耿丹学院毕业设计管理系统
         </Footer>
     )
 }

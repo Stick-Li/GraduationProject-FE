@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Card, Button, Table, Modal, message, Space, Popconfirm } from 'antd';
-import { FileExcelOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, SearchOutlined } from '@ant-design/icons';
 import UserAdd from '../../components/User/Add';
 import UsersImport from '../../components/User/Import';
 import { reqAddOneUser, reqAddUsers, reqGetAllUsers, reqUpdateOneUser, reqDeleteOneUser } from '../../api';
+import Input from 'antd/lib/input/Input';
+import Highlighter from 'react-highlight-words';
 
 export default function User() {
 
@@ -17,14 +19,129 @@ export default function User() {
   const [visibleUpdateUser, setVisibleUpdateUser] = useState(false);
   const [nowUpdateUser, setNowUpdateUser] = useState();
 
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          {/* <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button> */}
+          {/* <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button> */}
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1890ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: '#ffc069',
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+
   const userColumns = [
     {
       title: '学号/工号',
-      dataIndex: 'userId'
+      dataIndex: 'userId',
+      ...getColumnSearchProps('userId'),
+      // sorter: (a, b) => {
+      //   console.log(a, b)
+      //   return a.userId - b.userId
+      // },
     },
     {
       title: '姓名',
-      dataIndex: 'username'
+      dataIndex: 'username',
+      ...getColumnSearchProps('username'),
     },
     {
       title: '手机号',
@@ -32,15 +149,80 @@ export default function User() {
     },
     {
       title: '学院',
-      dataIndex: 'userInstitute'
+      dataIndex: 'userInstitute',
+      filters: [
+        {
+          text: '机械工程学院',
+          value: '机械工程学院',
+        },
+        {
+          text: '信息工程学院',
+          value: '信息工程学院',
+        },
+        {
+          text: '国际设计学院',
+          value: '国际设计学院',
+        },
+        // {
+        //   text: '写活了',
+        //   value: '写活了',
+        // },
+      ],
+      onFilter: (value, record) => record.userInstitute.includes(value),
+      filterSearch: true,
+      // width: '40%',
     },
     {
       title: '专业',
-      dataIndex: 'userSubject'
+      dataIndex: 'userSubject',
+      filters: [
+        {
+          text: '计算机科学与技术',
+          value: '计算机科学与技术',
+        },
+        {
+          text: '工业设计',
+          value: '工业设计',
+        },
+        {
+          text: '机械制造及其自动化',
+          value: '机械制造及其自动化',
+        },
+      ],
+      onFilter: (value, record) => {
+        // console.log(value, record.userSubject, value === record.userSubject)
+        return value === record.userSubject
+        // return record.userInstitute.includes(value)
+      },
+      filterSearch: true,
     },
     {
       title: '所属角色',
-      dataIndex: 'userRole'
+      dataIndex: 'userRole',
+      filters: [
+        {
+          text: '老师',
+          value: '老师',
+        },
+        {
+          text: '学生',
+          value: '学生',
+        },
+        {
+          text: '专业负责人',
+          value: '专业负责人',
+        },
+      ],
+      onFilter: (value, record) => {
+        // console.log(value, record.userSubject, value === record.userSubject)
+        // return value === record.userSubject
+        return record.userRole.includes(value)
+      },
+      // sorter: (a, b) => {
+      //   console.log(a.userRole, 1, b.userRole)
+      //   return a.userRole - b.userRole
+      // },
+      filterSearch: true,
     },
     {
       title: 'Action',
@@ -109,6 +291,7 @@ export default function User() {
         })
       }
     } else {
+      console.log('?????getAddOneUser', getAddOneUser)
       message.error({
         content: '请将必填项完整',
         duration: 2,
@@ -230,7 +413,8 @@ export default function User() {
     getUsers()
   }, []);
 
-  const card_header_left = <span>一个按条件搜索的框</span>
+  // const card_header_left = <span>一个按条件搜索的框</span>
+  const card_header_left = <span>用户列表</span>
   const card_header_right = (
     <>
       <Button type="primary" onClick={showAddOneUser} className='cardBtn'>新建用户</Button>

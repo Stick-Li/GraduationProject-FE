@@ -13,20 +13,6 @@ const treeData = [
                 key: 'home',
                 // disabled: true,
                 // #region
-                // children: [
-                //   {
-                //     title: '0-0-0-0',
-                //     key: '0-0-0-0',
-                //   },
-                //   {
-                //     title: '0-0-0-1',
-                //     key: '0-0-0-1',
-                //   },
-                //   {
-                //     title: '0-0-0-2',
-                //     key: '0-0-0-2',
-                //   },
-                // ],
                 // #endregion
             },
             {
@@ -56,6 +42,11 @@ const treeData = [
                 key: 'fun',
                 children: [
                     {
+                        title: '课题申报',
+                        // key: '0-0-1-0',
+                        key: 'report',
+                    },
+                    {
                         title: '消息通知',
                         // key: '0-0-1-0',
                         key: 'declaration',
@@ -66,6 +57,26 @@ const treeData = [
                     },
                 ],
             },
+            {
+                title: '文档',
+                key: 'files',
+                // disabled: true,
+                children: [
+                    {
+                        title: '课题申报',
+                        key: 'report',
+                    },
+                    {
+                        title: '消息通知',
+                        key: 'declaration',
+                    },
+                    {
+                        title: '双向选择',
+                        key: 'selection',
+                    },
+                ],
+            },
+
             // {
             //   title: '0-0-2',
             //   key: '0-0-2',
@@ -73,28 +84,7 @@ const treeData = [
         ],
     },
     // #region
-    // {
-    //   title: '0-1',
-    //   key: '0-1',
-    //   children: [
-    //     {
-    //       title: '0-1-0-0',
-    //       key: '0-1-0-0',
-    //     },
-    //     {
-    //       title: '0-1-0-1',
-    //       key: '0-1-0-1',
-    //     },
-    //     {
-    //       title: '0-1-0-2',
-    //       key: '0-1-0-2',
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: '0-2',
-    //   key: '0-2',
-    // },
+
     // #endregion
 ];
 
@@ -110,7 +100,7 @@ const RolePower = (props) => {
     const [autoExpandParent, setAutoExpandParent] = useState(true);
 
     const onExpand = (expandedKeysValue) => {
-        console.log('onExpand：打印展开的节点', expandedKeysValue); // if not set autoExpandParent to false, if children expanded, parent can not collapse.
+        // console.log('onExpand：打印展开的节点', expandedKeysValue); // if not set autoExpandParent to false, if children expanded, parent can not collapse.
         // or, you can remove all expanded children keys.
 
         setExpandedKeys(expandedKeysValue);
@@ -118,19 +108,19 @@ const RolePower = (props) => {
     };
 
     const onCheck = (checkedKeysValue) => {
-        console.log('onCheck：打印选中的节点', checkedKeysValue);
+        // console.log('onCheck：打印选中的节点', checkedKeysValue);
         setCheckedKeys(checkedKeysValue);
     };
 
     const onSelect = (selectedKeysValue, info) => {
-        console.log('onSelect：点击某节点', info);
+        // console.log('onSelect：点击某节点', info);
         setSelectedKeys(selectedKeysValue);
     };
 
     useEffect(() => {
         // 把选中的菜单path传到父组件
         getMenuPath(checkedKeys)
-        console.log('22222', checkedKeys)
+        // console.log('22222', checkedKeys)
     });
 
 

@@ -31,7 +31,7 @@ const UsersImport = (props) => {
       }
     ],
     beforeUpload(file) {
-      console.log('beforeInfo', file)
+      // console.log('beforeInfo', file)
 
       if (filesLength === 1) {
         getExcelData(file)
@@ -56,7 +56,7 @@ const UsersImport = (props) => {
       // await getExcelData(info)
 
       if (status !== 'uploading') {
-        console.log(info.file, info.fileList);
+        // console.log(info.file, info.fileList);
         setFilesLength(info.fileList.length)
       }
 
@@ -71,7 +71,7 @@ const UsersImport = (props) => {
     //   console.log('Dropped files', e.dataTransfer.files);
     // },
     onRemove: (file) => {
-      console.log(file)
+      // console.log(file)
       const { uid } = file
       if (uid === '0') {
         message.error({
@@ -130,7 +130,7 @@ const UsersImport = (props) => {
       data.push(dataChild)
     })
 
-    console.log(data)
+    // console.log(data)
 
     // 这部分一会独立出去 不要每次提交都重新去数据库请求数据，然后改success的部分
     try {
@@ -202,7 +202,7 @@ const UsersImport = (props) => {
         return value.roleName
       })
       setRolesArr(rolesArr)
-      console.log('-=-=-', rolesArr)
+      // console.log('-=-=-', rolesArr)
     } else {
       message.error({
         content: `${status}：${msg}`,

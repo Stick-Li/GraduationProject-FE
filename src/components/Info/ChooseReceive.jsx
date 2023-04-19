@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Form, Input, Button, Modal, Radio, Select, Cascader, Switch } from 'antd';
+import { Form, Input, Button, Modal, Radio, Select, Cascader, Switch, Tooltip } from 'antd';
 import memoryUtils from '../../utils/memoryUtils';
 import { reqGetRoles } from '../../api';
 import './index.less'
@@ -16,41 +16,35 @@ const ChooseReceive = (props) => {
     const [isRoleHidden, setIsRoleHidden] = useState({ display: 'block' });
     const [isIdHidden, setIsIdHidden] = useState({ display: 'none' });
     const [roleTypes, setRoleTypes] = useState([]);
+    const [chooseValue, setChooseValue] = useState();
+
 
     const roleRef = useRef()
     const idRef = useRef()
+    const chooseValueRef = useRef()
 
     const options = [
         {
-            value: 'zhejiang',
+            value: 'richang',
             label: '日常指导',
-            // children: [
-            //     {
-            //         value: 'hangzhou',
-            //         label: 'Hangzhou',
-            //         children: [
-            //             {
-            //                 value: 'xihu',
-            //                 label: 'West Lake',
-            //             },
-            //         ],
-            //     },
-            // ],
         },
         {
-            value: 'jiangsu',
+            value: 'dabian',
             label: '答辩环节',
             children: [
                 {
-                    value: 'nanjing',
+                    key: 1,
+                    value: 'kaiti',
                     label: '开题答辩',
                 },
                 {
-                    value: 'nanjing',
+                    key: 2,
+                    value: 'zhongqi',
                     label: '中期答辩',
                 },
                 {
-                    value: 'nanjing',
+                    key: 3,
+                    value: 'lunwen',
                     label: '论文答辩',
                 },
             ],
@@ -61,12 +55,14 @@ const ChooseReceive = (props) => {
         setIsModalVisible(true);
     };
     const handleOk = () => {
-        console.log('最终值', form.getFieldsValue())
-        props.getReceiver(form.getFieldsValue())
+        // console.log('最终值', form.getFieldsValue())
+        props.getReceiver({ ...form.getFieldsValue(), chooseLink: chooseValueRef.current })
         setIsModalVisible(false);
+        form.resetFields()
     };
     const handleCancel = () => {
         setIsModalVisible(false);
+        form.resetFields()
     };
 
 
@@ -94,9 +90,26 @@ const ChooseReceive = (props) => {
             return value.roleName
         })
         setRoleTypes(rolesTypes)
-        console.log('rolesTypes', rolesTypes)
+        // console.log('rolesTypes', rolesTypes)
         // setroleTypes('数据库中的数据')
     }
+
+    const onChangeCascader = (value) => {
+        // console.log('级联选择', value);
+        const chooseValue = value.slice(-1)[0]
+        if (chooseValue === 'richang') setChooseValue('将提醒学生填写日常指导表')
+        else if (!chooseValue) { }
+        else setChooseValue('将提醒学生填写答辩表格')
+
+        //         chooseTitle
+        // chooseValue === 'richang' ?
+        //     <>日常指导表</>
+        //     : !chooseValue ?
+        //         null : <>答辩指导表</>
+        chooseValueRef.current = chooseValue
+        console.log(']]]]', chooseValue, chooseValueRef.current)
+
+    };
 
     useEffect(() => {
         getRoleTypes()
@@ -104,9 +117,12 @@ const ChooseReceive = (props) => {
 
     return (
         <div className='ChooseReceive'>
-            <Button type="primary" onClick={showModal} className='chooseReceiveBtn'>
-                发布消息
-            </Button>
+            {/* {
+                memoryUtils.user.userRole === '学生' ? null : */}
+                    <Button type="primary" onClick={showModal} className='chooseReceiveBtn'>
+                        发布消息
+                    </Button>
+            {/* } */}
             <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <Form
                     form={form}
@@ -133,25 +149,35 @@ const ChooseReceive = (props) => {
                             <Radio value={2}>个人收信</Radio>
                         </Radio.Group>
                     </Form.Item>
-                    {/* <Radio.Group onChange={onChange} value={value} className='receiver1or2'>
-                        <Radio value={1}>收信人身份</Radio>
-                        <Radio value={2}>收信人学号</Radio>
-                    </Radio.Group>*/}
-                    {/* <Form.Item
-                        label="收信人"
+
+                    <Form.Item
+                        label="应用环节"
+                        name="chooseLink"
                         required
-                        // className='receiverRole'
-                        name="receiverRole"
-                        style={isRoleHidden}
+                    // tooltip
+                    // validateMessages={'validateMessages'}
                     >
-                        <Select ref={roleRef} placeholder="收信人身份">
-                            {
-                                roleTypes.map((item) => {
-                                    return <Option value={item} key={item}>{item}</Option>
-                                })
-                            }
-                        </Select>
-                    </Form.Item> */}
+                        <Input.Group compact>
+                            <Tooltip placement="topLeft" title={chooseValue}>
+                                <Cascader
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    options={options}
+                                    onChange={onChangeCascader}
+                                    placeholder="选择该操作环节"
+                                />
+                            </Tooltip>
+                        </Input.Group>
+                    </Form.Item>
+                    {/* {
+                        chooseTitle
+                        chooseValue === 'richang' ?
+                            <>日常指导表</>
+                            : !chooseValue ?
+                                null : <>答辩指导表</>
+                    } */}
+
                     <Form.Item
                         label="收信人"
                         // className='receiverId'
@@ -203,36 +229,13 @@ const ChooseReceive = (props) => {
                             }}
                         />
                     </Form.Item>
-                    <Form.Item
-                        label="应用环节"
-                        name=""
-                        required
-                    >
-                        <Input.Group compact>
-                            {/* <Select
-                                style={{
-                                    width: '30%',
-                                }}
-                                defaultValue="Home"
-                            >
-                                <Option value="Home">Home</Option>
-                                <Option value="Company">Company</Option>
-                            </Select> */}
-                            <Cascader
-                                style={{
-                                    width: '100%',
-                                }}
-                                options={options}
-                                placeholder="选择该操作环节"
-                            />
-                        </Input.Group>
-                    </Form.Item>
-                    <Form.Item
+
+                    {/* <Form.Item
                         label="是否立即发布"
                         name=""
                     >
                         <Switch defaultChecked onChange={onChange} />
-                    </Form.Item>
+                    </Form.Item> */}
                 </Form>
             </Modal>
         </div>

@@ -17,22 +17,30 @@ const items = [
         // getItem('Alex', '5'),
     ]),
     getItem('功能', 'fun', <UserOutlined />, [
-        getItem('消息通知', 'declaration'),
-        getItem('双向选择','selection')
-        // getItem('课题申报', 'declaration'),
-        // getItem('选题', '4'),
-        // getItem('开题', '5'),
-        // getItem('中期答辩', '6'),
-        // getItem('申请答辩', '7'),
-        // getItem('评审', '8'),
-        // getItem('答辩', '9'),
+        getItem('课题申报','report'),
+        getItem('双向选择','selection'),
+        getItem('指导记录', 'declaration'),
     ]),
-    // getItem('进度图解', 'sub3', <TeamOutlined />, [
-    //     getItem('Team 1', '10'),
-    //     getItem('Team 2', '11')
-    // ]),
-    getItem('草稿', 'test', <FileOutlined />),
-    getItem('我的Hooks', 'myhooks', <FileOutlined />),
+    getItem('文档', 'files', <TeamOutlined />, [
+        getItem('选题申报表', 'xuantishenbao'),
+        getItem('开题报告表', 'kaitibaogao'),
+        getItem('中期检查表', 'zhongqijiancha'),
+        getItem('申请答辩表', 'shenqingdabian'),
+
+        // getItem('题目统计表', '2'),
+        // getItem('任务书', '3'),
+        // getItem('指导记录', '5'),
+        // getItem('申请答辩与评审表', '7'),
+        // getItem('评阅表', '8'),
+        // getItem('答辩记录表', '9'),
+        // getItem('工作汇总表', '10'),
+        // getItem('推荐表', '11'),
+        // getItem('工作总结', '12'),
+        // getItem('资格认证统计表', '13'),
+
+    ]),
+    // getItem('草稿', 'test', <FileOutlined />),
+    // getItem('我的Hooks', 'myhooks', <FileOutlined />),
 ];
 
 // if()

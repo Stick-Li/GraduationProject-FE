@@ -1,17 +1,64 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { Fragment, useEffect, useLayoutEffect, useState } from 'react'
+import './index.less'
 import axios from 'axios';
 import qs from 'qs'
-import { Tabs } from 'antd';
+import { Button, Divider, Dropdown, List, Menu, Space, Table, Tabs, Tag, Upload } from 'antd';
 import A from '../../components/TestComponents/A'
 import B from '../../components/TestComponents/B'
 
 import MouseCat from '../../components/TestComponents/Mouse_Tree'
 
 import MyModal from '../../components/TestComponents/MyModal';
+import { DownOutlined, EllipsisOutlined, LinkOutlined, PaperClipOutlined, SmileOutlined, UploadOutlined, UserOutlined } from '@ant-design/icons';
+import memoryUtils from '../../utils/memoryUtils';
 
 const fn4 = () => {
   // console.log('一个普通的函数-外面版')
 }
+
+const data = [
+  (
+    <div className='home'>
+      <PaperClipOutlined />
+      <a href='E:/。大四毕设/2023论文规范/北京工业大学耿丹学院2023届本科生毕业设计（论文）工作规范.docx'>毕业设计（论文）工作规范.docx</a>
+    </div>
+  ),
+  (
+    <div className='home'>
+      <PaperClipOutlined />
+      <a href=''>毕业设计（论文）文稿模板.doc</a>
+    </div>
+  ),
+  (
+    <div className='home'>
+      <PaperClipOutlined />
+      <a href=''>外文资料及中文译文模板.docx</a>
+    </div>
+  ),
+  (
+    <div className='home'>
+      <PaperClipOutlined />
+      <a href=''>信息与文献参考文献著录规则（GB∕T7714-2015）.pdf</a>
+    </div>
+  ),
+  (
+    <div className='home spanABtn'>
+      <span>
+        <EllipsisOutlined />
+        <span>敬请期待</span>
+      </span>
+      {
+        memoryUtils.user.userId === 'Admin123' ?
+          <Button icon={<UploadOutlined />}>Upload</Button>
+          :
+          null
+      }
+
+    </div>
+  ),
+];
+
+
 export default function Home() {
   const [num1, setNum1] = useState(0);
   const [num2, setNum2] = useState(0);
@@ -64,9 +111,64 @@ export default function Home() {
     // };
     console.log(22222222222)
   }, []);
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: '1',
+          label: <span>1</span>,
+        },
+        {
+          key: '2',
+          label: <span>2</span>,
+          icon: <SmileOutlined />,
+          disabled: true,
+        },
+        {
+          key: '3',
+          label: <span>3</span>,
+          disabled: true,
+        },
+        {
+          key: '4',
+          danger: true,
+          label: 'a danger item',
+        },
+      ]}
+    />
+  );
+  const props = {
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    onChange({ file, fileList }) {
+      if (file.status !== 'uploading') {
+        console.log(file, fileList);
+      }
+    },
+
+  };
   return (
     <>
-    <h1>首页：文件库（待做）</h1>
+      {/* <h1>欢迎来到耿丹学院毕业设计管理平台</h1> */}
+      <Divider orientation="left">欢迎来到耿丹学院毕业设计管理平台</Divider>
+      <List
+        size="large"
+        // header={<div>Header</div>}
+        // footer={<div>Footer</div>}
+        bordered
+        dataSource={data}
+        renderItem={(item) => <List.Item>{item}</List.Item>}
+      />
+
+      {/* <Upload {...props}>
+        <Button icon={<UploadOutlined />}>Upload</Button>
+      </Upload> */}
+      {/* <h1>首页：文件库（待做）</h1>
+      <Dropdown overlay={menu}>
+          <Space>
+            Hover me
+            <DownOutlined />
+          </Space>
+      </Dropdown> */}
       {/* {console.log('render-------------------')}
 
       <button onClick={() => fn1()}>三次useState：{num1}{name}</button>
