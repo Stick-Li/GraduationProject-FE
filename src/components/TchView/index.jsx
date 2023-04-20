@@ -1,12 +1,54 @@
-import { Button, Dropdown, Menu, Select, Space, Table, Tabs, message } from 'antd';
+import { Button, Dropdown, List, Menu, Modal, Select, Space, Table, Tabs, message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { reqGetAllStudents, reqGetAllTeachers } from '../../api';
 import memoryUtils from '../../utils/memoryUtils';
 import { DownOutlined, SmileOutlined, UserOutlined } from '@ant-design/icons';
+import Xuantishenbao from '../../pages/Files/xuantishenbao';
+import Kaitibaogao from '../../pages/Files/kaitibaogao';
+import Zhongqijiancha from '../../pages/Files/zhongqijiancha';
+import Shenqingdabian from '../../pages/Files/shenqingdabian';
 
 const onChange = (key) => {
     // console.log(key);
 };
+
+const filesWithAStu = {
+    'userId': '101111114',
+    'files': [
+        {
+            'fileName': '开题报告表',
+            'fileContent': {
+                'bishedidian': "耿丹学院",
+                'ketijieshao': "本课题根据北京工业大学耿丹学院的毕业设计（论文）管理流程完成毕业设计管理系统。。。。",
+                'ketilaiyuan': "E",
+                'ketileixing': "BX",
+                'ketimingcheng': "毕业设计管理系统的设计与实现",
+                'nianling': "25",
+                'radio-group': "女",
+                'zhidaojiaoshi': "高老师",
+            }
+        },
+        {
+            'fileName': '中期检查表',
+            'fileContent': {
+                'finishArea': "xxx",
+                'finishAreaPercentage': 60,
+                'hoursAWeek': "2",
+                'rules': "zzzzzz",
+                'stuClass': "计科19-3",
+                'stuId': "101111114",
+                'stuName': "学生丁",
+                'thuName': "高老师",
+                'thuTitle': "xxx",
+                'timesAWeak': "1",
+                'title': "xxx的设计与实现",
+                'unFinishArea': "yyy",
+                'unFinishAreaPercentage': 40,
+            }
+        }
+    ]
+}
+
 const columns = [
     {
         title: 'Name',
@@ -70,6 +112,18 @@ const columns = [
 
 ];
 
+const columnsMyStu = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+    },
+    {
+        title: '学号',
+        dataIndex: 'userId',
+        width: '85%',
+    },
+];
+
 const onChangeTable = (pagination, filters, sorter, extra) => {
     // console.log('params', pagination, filters, sorter, extra);
 };
@@ -92,16 +146,40 @@ const onSearch = (value) => {
     console.log('search:', value);
 };
 
-
+const myStuGroup = [
+    {
+        key: '101111114',
+        userId: '101111114',
+        name: '学生丁',
+    },
+    {
+        key: '200201325',
+        userId: '200201325',
+        name: '学生三',
+    },
+]
 const Index = (props) => {
 
     const [stuInfo, setStuInfo] = useState()
     const [chooseMyStuInfo, setChooseMyStuInfo] = useState()
     const [allTeachersInfo, setAllTeachersInfo] = useState(columns);
     const [selectItems, setSelectItems] = useState([{ value: '老师A', label: '老师A' }, { value: '老师B', label: '老师B', }]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const refSelect = useRef(null)
+    const itemRef = useRef()
+    const refInfo = useRef()
 
     const { role } = props
+
+    const showModal = (value) => {
+        // console.log(value)
+        itemRef.current = value
+        setIsModalOpen(true);
+    };
+    const handleOk = () => { setIsModalOpen(false); };
+    const handleCancel = () => { setIsModalOpen(false); };
+
 
     const getStuInfo = async () => {
         const { status, msg, data } = await reqGetAllStudents(memoryUtils.user.userSubject)
@@ -252,13 +330,78 @@ const Index = (props) => {
                 </Tabs.TabPane>
                 {
                     role === '专业负责人' ? null :
-                        <Tabs.TabPane tab="选择我的同学" key="2">
-                            <Table columns={allTeachersInfo} dataSource={chooseMyStuInfo} onChange={onChangeTable} />
-                        </Tabs.TabPane>
+                        <>
+                            <Tabs.TabPane tab="选择我的同学" key="2">
+                                <Table columns={allTeachersInfo} dataSource={chooseMyStuInfo} onChange={onChangeTable} />
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab="我的小组" key="3">
+                                {/* <Table  dataSource={myStuGroup} onChange={onChangeTable} /> */}
+
+                                <Table
+                                    onClick={(value) => { console.log(value) }}
+                                    columns={columnsMyStu}
+                                    expandable={{
+                                        onExpand: (expanded, record) => {
+                                            console.log(expanded, record)
+                                            // true {key: '101111114', userId: '101111114', name: '学生丁'}
+                                            refInfo.current = record
+                                        },
+                                        expandedRowRender: (record) => (
+                                            <div className='inList'>
+                                                <List
+                                                    size="small"
+                                                    dataSource={filesWithAStu.files}
+                                                    renderItem={(item, index) => (
+                                                        <List.Item key={item.fileName + refInfo.current.userId} actions={[<a key={item.fileName + refInfo.current.userId} onClick={() => { showModal(item) }}>more</a>]}>
+                                                            {item.fileName}
+                                                        </List.Item>
+                                                        // console.log(item.fileName)
+                                                    )}
+                                                />
+                                            </div>
+                                        ),
+                                        rowExpandable: (record) => record.username !== 'Not Expandable',
+                                    }}
+                                    dataSource={myStuGroup}
+                                />
+                            </Tabs.TabPane>
+                        </>
                 }
             </Tabs>
+            <Modal title={itemRef.current?.fileName} visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                {
+                    itemRef.current?.fileName === "选题申报表" ? <Xuantishenbao info={itemRef.current} /> :
+                        itemRef.current?.fileName === "开题报告表" ? <Kaitibaogao info={itemRef.current} /> :
+                            itemRef.current?.fileName === "中期检查表" ? <Zhongqijiancha info={itemRef.current} /> :
+                                itemRef.current?.fileName === "申请答辩表" ? <Shenqingdabian info={itemRef.current} /> : null
+                }
+            </Modal>
+
         </div>
     );
 }
 
 export default Index;
+
+/* 
+
+<Button onClick={() => { showModal() }}>点</Button> 
+
+<Modal title="-----" visible={isModalOpen}>
+
+<Xuantishenbao info={itemRef.current} /> 
+
+*/
+
+/* itemRef.current.fileName === "选题申报表" ? <Xuantishenbao info={itemRef.current} /> :
+                                            itemRef.current.fileName === "开题报告表" ? <Kaitibaogao info={itemRef.current} /> :
+                                                itemRef.current.fileName === "中期答辩表" ? <Zhongqijiancha info={itemRef.current} /> :
+                                                    itemRef.current.fileName === "申请答辩表" ? <Shenqingdabian info={itemRef.current} /> : null 
+/* console.log(itemRef.current.fileName) */
+/* Xuantishenbao
+                                    Kaitibaogao
+                                    Zhongqijiancha
+                                    Shenqingdabian */
+/* </Modal> */
+
+

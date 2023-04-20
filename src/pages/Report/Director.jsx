@@ -36,7 +36,7 @@ const columns = [
 ];
 // 课题申报 文件 表格
 const ktsbInfo = {
-    'userId': '000201324',
+    'userId': '101111114',
     'userInstitute': "信息工程学院",
     'userSubject': "计算机科学与技术",
     'titles': [

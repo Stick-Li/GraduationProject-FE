@@ -20,6 +20,7 @@ const Xuantishenbao = (props) => {
     };
 
     useEffect(() => {
+        // ref和form的使用
         formRef.current.resetFields()
         form.setFieldValue({...props.info })
         // formRef.current.resetFields()

@@ -1,17 +1,43 @@
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Form, Input, Row, message } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React from 'react';
+import memoryUtils from '../../utils/memoryUtils';
+import { useEffect } from 'react';
+import { useRef } from 'react';
 
-const Kaitibaogao = () => {
+const Kaitibaogao = (props) => {
+
+    const [form] = Form.useForm();
+    const formRef = useRef(props)
+
+    const onFinish = (values) => {
+        console.log('开题申报:', values);
+        message.success({
+            content: `提交成功！`,
+            duration: 2
+        })
+        form.resetFields()
+    };
+
+    useEffect(() => {
+        // ref和form的使用
+        formRef.current.resetFields()
+        form.setFieldValue({ ...props.info?.fileContent })
+        console.log('[[[[[message]]]]]', props.info?.fileContent)
+        // formRef.current.resetFields()
+    }, [props.info]);
+
+
     return (
         <>
             <div className='fileContent'>
                 <Form
                     className='contentForm'
                     name="basic"
-                    // form={form}
-                    // ref={formRef}
-                    // initialValues={props.info}
+                    onFinish={onFinish}
+                    form={form}
+                    ref={formRef}
+                    initialValues={props.info?.fileContent}
                     // onFinish={onFinish}
                     // onFinishFailed={onFinishFailed}
                     autoComplete="off"
@@ -137,17 +163,20 @@ const Kaitibaogao = () => {
                         <TextArea rows={4} />
                     </Form.Item>
 
-                    <Form.Item
-                        wrapperCol={{
-                            offset: 12,
-                            span: 12,
-                        }}
-                    >
-                        <Button type="primary" htmlType="submit">
-                            提交
-                        </Button>
+                    {
+                        memoryUtils.user.userRole !== '学生' ? null :
+                            <Form.Item
+                                wrapperCol={{
+                                    offset: 12,
+                                    span: 12,
+                                }}
+                            >
+                                <Button type="primary" htmlType="submit">
+                                    提交
+                                </Button>
 
-                    </Form.Item>
+                            </Form.Item>
+                    }
                 </Form>
             </div >
 

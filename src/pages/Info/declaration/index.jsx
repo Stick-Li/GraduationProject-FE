@@ -5,6 +5,7 @@ import ChooseReceive from '../../../components/Info/ChooseReceive';
 import './index.less'
 import { UserOutlined } from '@ant-design/icons';
 import memoryUtils from '../../../utils/memoryUtils';
+import { Link } from 'react-router-dom';
 const { TextArea } = Input;
 
 const data = [
@@ -151,9 +152,9 @@ export default function Declaration() {
             <Modal title={modelRef.current.title} visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 {
                     memoryUtils.user.userRole === '学生' ?
-                        modelRef.current.chooseLink === 'kaiti' ? '点击跳转至开题报告页面填写' :
-                            modelRef.current.chooseLink === 'zhongqi' ? '点击跳转至中期检查页面填写' :
-                                modelRef.current.chooseLink === 'lunwen' ? '点击跳转至申请最终论文答辩页面填写' : null : null
+                        modelRef.current.chooseLink === 'kaiti' ? <Link to='/kaitibaogao'>点击跳转至开题报告页面填写</Link> :
+                            modelRef.current.chooseLink === 'zhongqi' ? <Link to='/zhongqijiancha'>点击跳转至中期检查页面填写</Link> :
+                                modelRef.current.chooseLink === 'lunwen' ? <Link to='/shenqingdabian'>点击跳转至申请最终论文答辩页面填写</Link> : null : null
                 }
                 <p>{modelRef.current.description.slice(modelRef.current.description.indexOf('：') + 1)}</p>
             </Modal>
